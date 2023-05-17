@@ -27,8 +27,21 @@ void Player::movementJump()
 	else {
 		verticalSpeed += gravitationalForce;
 		position.y += verticalSpeed;
+
+		move(0, verticalSpeed);
 	}
 	
+}
+
+void Player::movementHorizontal()
+{
+	if (left) {
+		move(-3.5f, 0);
+	}
+	if (right) {
+		move(3.5f, 0);
+	}
+
 }
 
 
@@ -47,22 +60,27 @@ void Player::handleEvents(sf::Event& e)
 			isJumping = true;
 			isGrounded = false;
 		}
-		if (e.key.code == sf::Keyboard::Left) {
-			left = true;
-			setScale({ -2,2 });
-		}
-		else left = false;
-		if (e.key.code == sf::Keyboard::Right) {
-			right = true;
-			setScale({ 2,2 });
-		}
-		else right = false;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		left = true;
+		right = false;
+		setScale({ -2, 2 });
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		left = false;
+		right = true;
+		setScale({ 2, 2 });
+	}
+	else {
+		left = false;
+		right = false;
 	}
 }
 
 void Player::drawTo(sf::RenderWindow& window)
 {
-	setPosition(position);
+	setPosition(getPosition().x, position.y);
 	borderCollision(window);
 	window.draw(*this);
 }

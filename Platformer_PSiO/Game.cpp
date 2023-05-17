@@ -32,6 +32,7 @@ int Game::run()
         window.clear();     
         background_texture.drawBackground(window);
         player.movementJump();
+        player.movementHorizontal();
         player.drawTo(window);
         window.display();
     }
