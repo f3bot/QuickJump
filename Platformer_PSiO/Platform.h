@@ -1,5 +1,8 @@
 #pragma once
-class Platform
+#include <SFML/Graphics.hpp>
+class Platform : public sf::RectangleShape
 {
+private:
+
 };
 
