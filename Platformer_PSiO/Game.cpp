@@ -1,7 +1,8 @@
 #include "Game.h"
 #include "Background.h"
-#include <iostream>
 #include "Player.h"
+#include "Platform.h"
+#include <iostream>
 void Game::initVariables()
 {
 
@@ -14,10 +15,12 @@ int Game::run()
 
     Background background_texture;
     Player player;
+    Platform plat;
+
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Platformer!");
 
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(144);
 
     while (window.isOpen())
     {
@@ -31,9 +34,14 @@ int Game::run()
 
         window.clear();     
         background_texture.drawBackground(window);
-        player.movementJump();
-        player.movementHorizontal();
         player.drawTo(window);
+        plat.drawTo(window);
+        player.movementJump();
+        player.movementHorizontal(clock.getElapsedTime().asMicroseconds());
+        player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
+        plat.playerBlockCollision(player);
+        player.borderCollision(window);
+        clock.restart();
         window.display();
     }
 

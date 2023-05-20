@@ -9,23 +9,82 @@ class Player : public sf::Sprite
 {
 
 private:
-	bool isGrounded;
+
+	//Movement variables
+
+
 	bool isJumping;
 	bool isDead;
-	const float gravitationalForce = 0.4f;
-	sf::Texture playerTexture;
-	double verticalSpeed;
-	double horizontalSpeed;
-	sf::Vector2f position;
 	bool left;
 	bool right;
+	const float gravitationalForce = 0.1f;
+	double verticalSpeed;
+	double horizontalSpeed;
+
+	//Bounds
+
+	sf::Vector2f position;
+	sf::RectangleShape bounds;
+
+	//Texture Variables
+
+	sf::Texture playerTexture;
+
+
+	sf::Texture breathingTexture;
+	std::vector<sf::IntRect> BreathingTextureVector;
+
+	sf::Texture jumpingTexture;
+	sf::Texture landingTexture;
+
+	sf::Texture runningTexture;
+	std::vector<sf::IntRect> RunningTextureVector;
+
+	
+
+
+
+	float animationTimeIdle;
+	float animationTimeRun;
+	int animationStateIdle;
+	int animationStateRun;
 
 public:
+	bool isGrounded;
+	//Constructors and Destructors
+
 	Player();
+
+	//Movement
+
 	void movementJump();
-	void movementHorizontal();
+	void movementHorizontal(float dt);
 	void handleEvents(sf::Event& e);
+
+	//Drawing and Collision
+
 	void drawTo(sf::RenderWindow& window);
 	void borderCollision(sf::RenderWindow& window);
+
+	//Textures handling **Void - displaying animation, bool - loading everything
+
+	bool handleBreathing();
+	void setBreathing(float dt);
+
+	bool handleJumping();
+	void setJumping();
+
+	bool handleRunning();
+	void setRunning(float dt);
+
+	void handleTextureChange(float dt); //Handle all texture changes 
+
+	//Getters and Setters
+
+	double getVertical();
+	double setVertical(double s);
+
+
+	//Score and Death handling
 };
 

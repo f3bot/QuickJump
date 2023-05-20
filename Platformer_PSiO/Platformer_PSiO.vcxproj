@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Platformer_PSiO.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Background.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
