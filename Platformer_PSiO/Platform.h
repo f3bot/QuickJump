@@ -13,7 +13,7 @@ private:
 	sf::RectangleShape* rect;
 	sf::Texture t;
 public:
-	Platform(std::vector<Platform>& platVec, float xPos, float yPos);
+	Platform(float xPos, float yPos);
 	~Platform();
 	void drawTo(sf::RenderWindow& window);
 	void playerBlockCollision(Player& player);

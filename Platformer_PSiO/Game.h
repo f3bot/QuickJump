@@ -11,11 +11,10 @@ private:
 	sf::RenderWindow window;
 	const unsigned int width = 600;
 	const unsigned int height = 800;
-	std::vector<Platform> platVec;
 public:
 	void initVariables();
 	void initWindowSettings();
-	void movePlatforms(Player& player);
+	void movePlatforms(Player& player, std::vector<Platform> platVec);
 	int run();
 	Game();
 };

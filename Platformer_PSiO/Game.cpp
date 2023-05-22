@@ -9,7 +9,7 @@ void Game::initVariables()
 }
 
 
-void Game::movePlatforms(Player& player)
+void Game::movePlatforms(Player& player, std::vector<Platform> platVec)
 {
     for (int i = 0; i < platVec.size(); i++) {
         std::cout << "Before move: " << platVec[i].getPosition().x << "  " << platVec[i].getPosition().y << std::endl;
@@ -22,13 +22,16 @@ int Game::run()
 {
     sf::Clock clock;
 
+    std::vector<Platform> platformVec;
+
     Background background_texture;
     Player player;
-    Platform plat(platVec,200.f,700.f);
-    Platform plat2(platVec, 200.f, 600.f);
-    Platform plat3(platVec, 200.f ,500.f);
+    Platform plat2( 200.f, 600.f);
 
+    platformVec.emplace_back(plat2);
     sf::RenderWindow window(sf::VideoMode(width, height), "Platformer!");
+
+
 
     window.setFramerateLimit(144);
 
@@ -40,24 +43,17 @@ int Game::run()
             if (event.type == sf::Event::Closed)
                 window.close();
             player.handleEvents(event);
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::C) {
-                    for (int i = 0; i < platVec.size(); i++) {
-                        std::cout << platVec[i].getPosition().x << "  " << platVec[i].getPosition().y << std::endl;
-                    }
-                }
-            }
         }
 
         window.clear();
         background_texture.drawBackground(window);
         player.drawTo(window);
-        for (int i = 0; i < platVec.size(); ++i) {
-            platVec[i].drawTo(window);
-            platVec[i].playerBlockCollision(player);
-            if (player.getJumping()) {
-                movePlatforms(player);
-            }
+        for (int i = 0; i < platformVec.size(); ++i) {
+            platformVec[i].drawTo(window);
+            platformVec[i].playerBlockCollision(player);
+        }
+        if (player.getJumping()) {
+            movePlatforms(player, platformVec);
         }
         player.movementJump();
         clock.restart();

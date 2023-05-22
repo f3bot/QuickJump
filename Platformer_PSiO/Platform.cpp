@@ -1,6 +1,6 @@
 #include "Platform.h"
 
-Platform::Platform(std::vector<Platform>& platVec, float xPos, float yPos)
+Platform::Platform(float xPos, float yPos)
 {
 	rect = new sf::RectangleShape();
 	size.x = 200;
@@ -11,7 +11,6 @@ Platform::Platform(std::vector<Platform>& platVec, float xPos, float yPos)
 	std::cout << rect->getPosition().x << "  " << rect->getGlobalBounds().top << std::endl;
 	handleTexture();
 
-	platVec.emplace_back(*this);
 }
 
 Platform::~Platform()

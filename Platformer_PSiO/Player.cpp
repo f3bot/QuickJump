@@ -68,6 +68,10 @@ void Player::movementJump()
 	if (verticalSpeed >= 16.f) {
 		verticalSpeed = 16.f;
 	}
+
+	if (verticalSpeed > 0) {
+		isJumping = false;
+	}
 }
 
 void Player::movementHorizontal(float dt)
