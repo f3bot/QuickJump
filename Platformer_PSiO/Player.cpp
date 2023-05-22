@@ -10,12 +10,16 @@ Player::Player() : sf::Sprite()
 
 
 	animationStateRun = 0;
-	animationTimeIdle = 0;
+	animationStateIdle = 0;
 
 	std::cout << "Obiekt klasy gracz\n";
 	if (!playerTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/idle.gif")) {
 		std::cerr << "Nie wczytano tekstury gracza\n";
 	}
+
+	jumpingTexture = sf::Texture();
+	breathingTexture = sf::Texture();
+	runningTexture = sf::Texture();
 
 	handleBreathing();
 	handleJumping();
@@ -115,6 +119,7 @@ void Player::handleEvents(sf::Event& e)
 	}
 }
 
+
 void Player::drawTo(sf::RenderWindow& window)
 {
 	setPosition(getPosition().x, position.y);
@@ -142,10 +147,17 @@ double Player::setVertical(double s)
 	return verticalSpeed;
 }
 
+bool Player::getJumping()
+{
+	if (isJumping) {
+		return true;
+	}
+
+	return false;
+}
+
 bool Player::handleBreathing()
 {
-
-	breathingTexture = sf::Texture(); //Cache clear bo sie wypierdoli
 
 	if (!breathingTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/tileSetBreathing.png")) {
 		std::cerr << "Nie wczytano tekstury gracza *tileset breathing\n";
@@ -166,7 +178,7 @@ bool Player::handleBreathing()
 	return true;
 }
 
-void Player::setBreathing(float dt)
+void Player::setBreathing(sf::Int64 dt)
 {
 	setTexture(breathingTexture);
 
@@ -181,7 +193,6 @@ void Player::setBreathing(float dt)
 
 bool Player::handleJumping()
 {
-	jumpingTexture = sf::Texture();
 
 	if (!jumpingTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/jump.png")) {
 		std::cerr << "Nie wczytano tekstury gracza *tileset jumping\n";
@@ -198,8 +209,6 @@ void Player::setJumping()
 
 bool Player::handleRunning()
 {
-	runningTexture = sf::Texture(); //Cache clear bo sie wypierdoli
-
 	if (!runningTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/tileSetRunning.png")) {
 		std::cerr << "Nie wczytano tekstury gracza *tileset Running\n";
 		return false;
@@ -220,29 +229,30 @@ bool Player::handleRunning()
 	return true;
 }
 
-void Player::setRunning(float dt)
+void Player::setRunning(sf::Int64 dt)
 {
 	setTexture(runningTexture);
 
 	animationTimeRun += dt;
 
-	if (animationTimeRun >= 200000) {
+	if (animationTimeRun >= 100000) {
 		animationStateRun = (animationStateRun + 1) % RunningTextureVector.size();
 		setTextureRect(RunningTextureVector[animationStateRun]);
 		animationTimeRun = 0;
 	}
 }
 
-void Player::handleTextureChange(float dt)
+void Player::handleTextureChange(sf::Int64 dt)
 {
-	if (isJumping) {
-		setJumping();
-	}
-	if (isGrounded && !isJumping && !left && !right) {
+
+	if (isGrounded) {
 		setBreathing(dt);
 	}
-	if (left || right && !isJumping) {
+	else if (left || right) {
 		setRunning(dt);
+	}
+	else if (isJumping) {
+		setJumping();
 	}
 }
 

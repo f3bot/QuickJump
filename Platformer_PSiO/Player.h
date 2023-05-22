@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <chrono>
 #include <thread>
+
 class Player : public sf::Sprite
 {
 
@@ -18,8 +19,6 @@ private:
 	bool left;
 	bool right;
 	const float gravitationalForce = 0.1f;
-	double verticalSpeed;
-	double horizontalSpeed;
 
 	//Bounds
 
@@ -53,6 +52,9 @@ public:
 	bool isGrounded;
 	//Constructors and Destructors
 
+	double verticalSpeed;
+	double horizontalSpeed;
+
 	Player();
 
 	//Movement
@@ -69,21 +71,22 @@ public:
 	//Textures handling **Void - displaying animation, bool - loading everything
 
 	bool handleBreathing();
-	void setBreathing(float dt);
+	void setBreathing(sf::Int64 dt);
 
 	bool handleJumping();
 	void setJumping();
 
 	bool handleRunning();
-	void setRunning(float dt);
+	void setRunning(sf::Int64 dt);
 
-	void handleTextureChange(float dt); //Handle all texture changes 
+	void handleTextureChange(sf::Int64 dt); //Handle all texture changes 
 
 	//Getters and Setters
 
 	double getVertical();
 	double setVertical(double s);
 
+	bool getJumping();
 
 	//Score and Death handling
 };

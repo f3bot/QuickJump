@@ -1,15 +1,17 @@
 #include "Platform.h"
 
-Platform::Platform()
+Platform::Platform(std::vector<Platform>& platVec, float xPos, float yPos)
 {
 	rect = new sf::RectangleShape();
 	size.x = 200;
 	size.y = 25;
 	rect->setSize(size);
-	rect->setPosition(200, 700);
+	rect->setPosition(xPos, yPos);
 	std::cout << "Utworzono platforme\n";
 	std::cout << rect->getPosition().x << "  " << rect->getGlobalBounds().top << std::endl;
 	handleTexture();
+
+	platVec.emplace_back(*this);
 }
 
 Platform::~Platform()
@@ -70,4 +72,9 @@ bool Platform::handleTexture()
 	this->rect->setTextureRect(sf::IntRect(400, 144, 96 ,16));
 
 	return true;
+}
+
+void Platform::moveUp(float verticalSpeed)
+{
+	this->rect->move(0, -1 * verticalSpeed);
 }

@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Player.h"
+
+class Game;
+
 class Platform : public sf::RectangleShape
 {
 private:
@@ -10,12 +13,12 @@ private:
 	sf::RectangleShape* rect;
 	sf::Texture t;
 public:
-	Platform();
+	Platform(std::vector<Platform>& platVec, float xPos, float yPos);
 	~Platform();
 	void drawTo(sf::RenderWindow& window);
 	void playerBlockCollision(Player& player);
 	void checkForFalling(Player& player);
 	bool handleTexture();
-	void generateWorld(std::vector<Platform> platVec);
+	void moveUp(float verticalSpeed);
 };
 
