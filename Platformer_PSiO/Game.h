@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <random>
+#include <ctime>
 #include <SFML/Graphics.hpp>
 #include "Background.h"
 #include "Platform.h"
@@ -17,9 +19,13 @@ public:
 	void initVariables();
 	void initWindowSettings();
 	void movePlatforms(Player& player);
-	void handleWorldGeneration();
-	void deleteOutOfBoundsPlatforms();
+	void handleWorldGeneration(Player& player);
+	sf::Vector2f randomCoordinates();
+	bool deleteOutOfBoundsPlatforms(Player& player);
+	void initializeGameWithPlatforms();
 	int run();
+
+	float randomFloat(float min, float max);
 	Game();
 };
 

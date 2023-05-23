@@ -18,7 +18,7 @@ private:
 	bool isDead;
 	bool left;
 	bool right;
-	const float gravitationalForce = 0.1f;
+	const float gravitationalForce = 0.05f;
 
 	//Bounds
 	sf::RectangleShape bounds;

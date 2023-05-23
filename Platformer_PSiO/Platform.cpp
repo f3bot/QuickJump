@@ -2,8 +2,8 @@
 
 Platform::Platform(float xPos, float yPos)
 {
-	size.x = 200;
-	size.y = 25;
+	size.x = 350;
+	size.y = 35;
 	rect.setSize(size);
 	rect.setPosition(xPos, yPos);
 
@@ -43,7 +43,6 @@ void Platform::playerBlockCollision(Player& player)
 		if (player.getVertical() >= 0) {
 				player.isGrounded = true;
 		}
-		player.position.y = topPlat - player.getGlobalBounds().height;
 	}
 
 }

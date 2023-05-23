@@ -26,7 +26,7 @@ Player::Player() : sf::Sprite()
 	handleRunning();
 	setTexture(breathingTexture);
 	setTextureRect(BreathingTextureVector[0]);
-	setPosition(300, 400);
+	setPosition(100, -100);
 	setScale({ 2,2 });
 
 	//Movement
@@ -65,18 +65,18 @@ void Player::movementJump()
 		move(0, verticalSpeed);
 	}
 
-	if (verticalSpeed >= 16.f) {
-		verticalSpeed = 16.f;
+	if (verticalSpeed >= 5.f) {
+		verticalSpeed = 5.f;
 	}
 }
 
 void Player::movementHorizontal(float dt)
 {
 	if (left) {
-		move(-2.f, 0);
+		move(-1.5f, 0);
 	}
 	if (right) {
-		move(2.f, 0);
+		move(1.5f, 0);
 	}
 
 }
@@ -93,12 +93,12 @@ void Player::handleEvents(sf::Event& e)
 			else isGrounded = false;
 		}
 		if (e.key.code == sf::Keyboard::Up && !isJumping) {
-			verticalSpeed = -8.f;
+			verticalSpeed = -3.5f;
 			isJumping = true;
 			isGrounded = false;
 		}
 		if (e.key.code == sf::Keyboard::X) {
-			std::cout << getPosition().x << "        " << getGlobalBounds().top - getGlobalBounds().height << " " << std::endl; //Testing - will remove later
+			std::cout << getPosition().x << " " << getPosition().y << std::endl;
 		}
 		if (e.key.code == sf::Keyboard::LAlt) { // Testing -  will remove later
 			setPosition(200, 300);

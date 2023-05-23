@@ -9,8 +9,9 @@ private:
 	sf::Texture lowerTexture_set;
 	sf::Sprite lowerTexture;
 public:
-	Background();
+	Background(sf::RenderWindow& window);
 	void changeTexture(sf::Texture t);
+	void updatePosition(sf::RenderWindow& window, sf::View& view);
 	void drawBackground(sf::RenderWindow& window);
 };
 

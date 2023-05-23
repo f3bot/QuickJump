@@ -16,40 +16,71 @@ void Game::movePlatforms(Player& player)
     }                                           //Illusion that the world is smoothly generated, rather than platforms just appearing out of nowhere
 }
 
-void Game::handleWorldGeneration()
+void Game::handleWorldGeneration(Player& player)
 {
     //First portion of this 
-    deleteOutOfBoundsPlatforms();
+
+    if (deleteOutOfBoundsPlatforms(player)) {
+        platformVec.push_back(new Platform(randomCoordinates().x, randomCoordinates().y));
+        std::cout << "New platform pushed to vector\n";
+    }
 
 
 }
 
-void Game::deleteOutOfBoundsPlatforms()
+sf::Vector2f Game::randomCoordinates()
+{
+    sf::Vector2f position;
+
+    int index = platformVec.size() - 1;
+
+    position.x = randomFloat(50, 550);
+    position.y = platformVec[index]->getPositionY() - randomFloat(200, 390);
+
+    return position;
+}
+
+bool Game::deleteOutOfBoundsPlatforms(Player& player)
 {
     for (auto a : platformVec) {
-        std::cout << a->getPositionY() << std::endl;
-        if (a->getPositionY() > height + 300) { // + 300, because we want the platform to slightly come back if the player falls down
+        if (a->getPositionY() > player.getPosition().y + height + 100) { // + 300, because we want the platform to slightly come back if the player falls down
             for (auto it = platformVec.begin(); it != platformVec.end(); ) { // Then, we will delete the player and end the game at height + 301 or smth
                 delete* it;
                 it = platformVec.erase(it);
+                std::cout << a->getPositionY() << std::endl;
+                return true;
             }
         }
     }
+
+    return false;
+}
+
+void Game::initializeGameWithPlatforms()
+{
+    platformVec = {
+        {new Platform(200.f, 300.f)},
+        {new Platform(200.f, 100.f)},
+        {new Platform(200.f, -300.f)},
+        {new Platform(200.f, -400.f)},
+        {new Platform(200.f, -500.f)},
+        {new Platform(200.f, -600.f)},
+        {new Platform(200.f, -700.f)},
+        {new Platform(200.f, -800.f)},
+        {new Platform(200.f, -900.f)},
+        {new Platform(200.f, -1000.f)}
+    };
 }
 
 int Game::run()
 {
     sf::Clock clock;
+    sf::View view = window.getDefaultView();
 
-    Background background_texture;
+    Background background_texture(window);
     Player player;
-    Platform* plat3 = new Platform(400.f, 300.f);
-    Platform* plat = new Platform(200.f, 500.f);
-    Platform* plat2 = new Platform( 200.f, 700.f);
 
-    platformVec.push_back(plat);
-    platformVec.push_back(plat2);
-    platformVec.push_back(plat3);
+    initializeGameWithPlatforms();
 
     std::cout << "Number of platforms: " << platformVec.size() << std::endl;
 
@@ -72,14 +103,13 @@ int Game::run()
         }
 
         window.clear();
-        background_texture.drawBackground(window);
         
+        background_texture.updatePosition(window, view);
+
         clock.restart();
         player.movementHorizontal(clock.getElapsedTime().asMicroseconds());
         player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
         player.borderCollision(window);
-
-        player.isGrounded = false;
 
         for (auto& a : platformVec) {
             movePlatforms(player);
@@ -87,17 +117,30 @@ int Game::run()
             a->drawTo(window);
         }
 
-        handleWorldGeneration();
+        background_texture.drawBackground(window);
+
+        handleWorldGeneration(player);
 
         player.movementJump();
 
+        view.setCenter(player.getPosition());
+        window.setView(view);
 
         player.drawTo(window);
+
+        background_texture.setPosition(player.getPosition());
 
         window.display();
     }
 
     return 0;
+}
+
+float Game::randomFloat(float min, float max)
+{
+    static std::default_random_engine e{ static_cast<long unsigned int>(time(0)) };
+    std::uniform_real_distribution<float> d{ min, max };
+    return d(e);
 }
 
 Game::Game()
