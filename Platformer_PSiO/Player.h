@@ -21,8 +21,6 @@ private:
 	const float gravitationalForce = 0.1f;
 
 	//Bounds
-
-	sf::Vector2f position;
 	sf::RectangleShape bounds;
 
 	//Texture Variables
@@ -49,6 +47,8 @@ private:
 	int animationStateRun;
 
 public:
+
+	sf::Vector2f position;
 	bool isGrounded;
 	//Constructors and Destructors
 

@@ -2,57 +2,55 @@
 
 Platform::Platform(float xPos, float yPos)
 {
-	rect = new sf::RectangleShape();
 	size.x = 200;
 	size.y = 25;
-	rect->setSize(size);
-	rect->setPosition(xPos, yPos);
-	std::cout << "Utworzono platforme\n";
-	std::cout << rect->getPosition().x << "  " << rect->getGlobalBounds().top << std::endl;
+	rect.setSize(size);
+	rect.setPosition(xPos, yPos);
+
+	t.loadFromFile("assets/decorative_obj.png");
+
 	handleTexture();
+
+
+	std::cout << "Utworzono platforme\n";
+	std::cout << rect.getPosition().x << "  " << rect.getGlobalBounds().top << std::endl;
 
 }
 
 Platform::~Platform()
 {
-	delete this->rect;
 	std::cout << "Usunieto platforme\n";
 }
 
 void Platform::drawTo(sf::RenderWindow& window)
 {
-	window.draw(*rect);
+	window.draw(rect);
 }
 
 void Platform::playerBlockCollision(Player& player)
 {
-	float leftPlat = this->rect->getGlobalBounds().left;
-	float topPlat = this->rect->getGlobalBounds().top;
-	float rightPlat = this->rect->getGlobalBounds().left + this->rect->getGlobalBounds().width;
-	float bottomPlat = this->rect->getGlobalBounds().top + this->rect->getGlobalBounds().height;
+	float leftPlat =  rect.getGlobalBounds().left;
+	float topPlat =  rect.getGlobalBounds().top;
+	float rightPlat =  rect.getGlobalBounds().left +  rect.getGlobalBounds().width;
+	float bottomPlat =  rect.getGlobalBounds().top +  rect.getGlobalBounds().height;
 
 	float leftPlayer = player.getGlobalBounds().left;
 	float topPlayer = player.getGlobalBounds().top;
 	float rightPlayer = player.getGlobalBounds().left + player.getGlobalBounds().width;
-	float bottomPlayer = player.getPosition().y + player.getGlobalBounds().height;
+	float bottomPlayer = player.getGlobalBounds().top + player.getGlobalBounds().height;
 
-
-	if (this->rect->getGlobalBounds().intersects(player.getGlobalBounds())) {
-		if (player.getVertical() > 0) {
-			if (bottomPlayer <= topPlat + 16 && bottomPlayer <= bottomPlat) {
-				player.setPosition(player.getPosition().x, topPlat);
+	if (bottomPlayer >= topPlat && bottomPlayer <= bottomPlat && leftPlayer >= leftPlat && rightPlayer <= rightPlat) {
+		if (player.getVertical() >= 0) {
 				player.isGrounded = true;
-			}
 		}
+		player.position.y = topPlat - player.getGlobalBounds().height;
 	}
-	else {
-		player.isGrounded = false;
-	}
+
 }
 
 void Platform::checkForFalling(Player& player)
 {
-	sf::FloatRect platformBounds = this->rect->getGlobalBounds();
+	sf::FloatRect platformBounds =  rect.getGlobalBounds();
 	sf::FloatRect playerBounds = player.getGlobalBounds();
 
 }
@@ -66,14 +64,21 @@ bool Platform::handleTexture()
 	else { 
 		std::cerr << "Wczytano teksture\n";
 	}
+
 	t.setRepeated(true);
-	this->rect->setTexture(&t);
-	this->rect->setTextureRect(sf::IntRect(400, 144, 96 ,16));
+	rect.setTexture(&t);
+	rect.setTextureRect(sf::IntRect(400, 144, 96 ,16));
 
 	return true;
 }
 
+float Platform::getPositionY()
+{
+
+	return rect.getPosition().y;
+}
+
 void Platform::moveUp(float verticalSpeed)
 {
-	this->rect->move(0, -1 * verticalSpeed);
+	 rect.move(0, -1 * verticalSpeed);
 }
