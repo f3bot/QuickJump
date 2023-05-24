@@ -2,6 +2,7 @@
 #include "Background.h"
 #include "Player.h"
 #include "Platform.h"
+#include "MovingPlatform.h"
 #include <iostream>
 void Game::initVariables()
 {
@@ -12,7 +13,7 @@ void Game::initVariables()
 void Game::movePlatforms(Player& player)
 {
     for (auto a : platformVec) {
-        a->moveUp(0.35 * player.getVertical()); // Platforms will move in the opposite direction as the player, this will give the 
+        a->moveUp(0.2 * player.getVertical()); // Platforms will move in the opposite direction as the player, this will give the 
     }                                           //Illusion that the world is smoothly generated, rather than platforms just appearing out of nowhere
 }
 
@@ -47,7 +48,6 @@ bool Game::deleteOutOfBoundsPlatforms(Player& player)
             for (auto it = platformVec.begin(); it != platformVec.end(); ) { // Then, we will delete the player and end the game at height + 301 or smth
                 delete* it;
                 it = platformVec.erase(it);
-                std::cout << a->getPositionY() << std::endl;
                 return true;
             }
         }
@@ -59,16 +59,8 @@ bool Game::deleteOutOfBoundsPlatforms(Player& player)
 void Game::initializeGameWithPlatforms()
 {
     platformVec = {
-        {new Platform(200.f, 300.f)},
-        {new Platform(200.f, 100.f)},
-        {new Platform(200.f, -300.f)},
-        {new Platform(200.f, -400.f)},
-        {new Platform(200.f, -500.f)},
-        {new Platform(200.f, -600.f)},
-        {new Platform(200.f, -700.f)},
-        {new Platform(200.f, -800.f)},
-        {new Platform(200.f, -900.f)},
-        {new Platform(200.f, -1000.f)}
+        {new Platform(200.f, 350.f)},
+        {new Platform(200.f, 150.f)}
     };
 }
 
@@ -78,17 +70,11 @@ int Game::run()
     sf::View view = window.getDefaultView();
 
     Background background_texture(window);
-    Player player;
+    Player player(window);
 
     initializeGameWithPlatforms();
 
-    std::cout << "Number of platforms: " << platformVec.size() << std::endl;
-
     sf::RenderWindow window(sf::VideoMode(width, height), "Platformer!");
-
-    //
-
-    std::cout << "Number of platforms: " << platformVec.size() << std::endl;
 
     window.setFramerateLimit(144);
 
@@ -103,13 +89,9 @@ int Game::run()
         }
 
         window.clear();
-        
-        background_texture.updatePosition(window, view);
 
-        clock.restart();
-        player.movementHorizontal(clock.getElapsedTime().asMicroseconds());
-        player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
-        player.borderCollision(window);
+
+        background_texture.drawBackground(window);
 
         for (auto& a : platformVec) {
             movePlatforms(player);
@@ -117,18 +99,20 @@ int Game::run()
             a->drawTo(window);
         }
 
-        background_texture.drawBackground(window);
-
         handleWorldGeneration(player);
 
+        player.movementHorizontal();
         player.movementJump();
+        background_texture.move(player.getHorizontal(), player.getVertical());
 
         view.setCenter(player.getPosition());
         window.setView(view);
-
+        player.borderCollision(window);
+        
         player.drawTo(window);
+        player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
-        background_texture.setPosition(player.getPosition());
+        clock.restart();
 
         window.display();
     }

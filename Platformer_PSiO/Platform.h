@@ -14,6 +14,7 @@ private:
 	sf::Texture t;
 public:
 	Platform(float xPos, float yPos);
+	Platform();
 	~Platform();
 	void drawTo(sf::RenderWindow& window);
 	void playerBlockCollision(Player& player);

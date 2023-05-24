@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Background.h"
 #include <iostream>
 #include <windows.h>
 #include <cstdlib>
@@ -16,8 +17,6 @@ private:
 
 	bool isJumping;
 	bool isDead;
-	bool left;
-	bool right;
 	const float gravitationalForce = 0.05f;
 
 	//Bounds
@@ -47,6 +46,8 @@ private:
 	int animationStateRun;
 
 public:
+	bool left;
+	bool right;
 
 	sf::Vector2f position;
 	bool isGrounded;
@@ -55,12 +56,12 @@ public:
 	double verticalSpeed;
 	double horizontalSpeed;
 
-	Player();
+	Player(sf::RenderWindow& window);
 
 	//Movement
 
 	void movementJump();
-	void movementHorizontal(float dt);
+	void movementHorizontal();
 	void handleEvents(sf::Event& e);
 
 	//Drawing and Collision
@@ -71,20 +72,22 @@ public:
 	//Textures handling **Void - displaying animation, bool - loading everything
 
 	bool handleBreathing();
-	void setBreathing(sf::Int64 dt);
+	void setBreathing(float dt);
 
 	bool handleJumping();
 	void setJumping();
 
 	bool handleRunning();
-	void setRunning(sf::Int64 dt);
+	void setRunning(float dt);
 
-	void handleTextureChange(sf::Int64 dt); //Handle all texture changes 
+	void handleTextureChange(float dt); //Handle all texture changes 
 
 	//Getters and Setters
 
 	double getVertical();
 	double setVertical(double s);
+
+	double getHorizontal();
 
 	bool getJumping();
 

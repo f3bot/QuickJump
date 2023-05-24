@@ -54,6 +54,11 @@ void Platform::checkForFalling(Player& player)
 
 }
 
+Platform::Platform()
+{
+	std::cout << "Defualt Constructor\n";
+}
+
 bool Platform::handleTexture()
 {
 	if (!t.loadFromFile("assets/decorative_obj.png")) {

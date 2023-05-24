@@ -1,6 +1,6 @@
 ﻿#include "Player.h"
 
-Player::Player() : sf::Sprite()
+Player::Player(sf::RenderWindow& window) : sf::Sprite()
 {
 	//Animation and texture stuff
 
@@ -26,8 +26,10 @@ Player::Player() : sf::Sprite()
 	handleRunning();
 	setTexture(breathingTexture);
 	setTextureRect(BreathingTextureVector[0]);
-	setPosition(100, -100);
-	setScale({ 2,2 });
+	position.x = 200.f;
+	position.y = 300.f;
+	setPosition(200.f, -10.f);
+	setScale({ 2.5,2.5 });
 
 	//Movement
 
@@ -70,13 +72,21 @@ void Player::movementJump()
 	}
 }
 
-void Player::movementHorizontal(float dt)
+void Player::movementHorizontal()
 {
+	horizontalSpeed = 0;
+
 	if (left) {
-		move(-1.5f, 0);
+		setScale({ -2.5, 2.5 });
+		horizontalSpeed = -2.5f;
+		position.x += horizontalSpeed;
+		setOrigin(getLocalBounds().width, 0);
 	}
 	if (right) {
-		move(1.5f, 0);
+		horizontalSpeed = 2.5f;
+		position.x += horizontalSpeed;
+		setScale({ 2.5, 2.5 });
+		setOrigin(0, 0);
 	}
 
 }
@@ -125,7 +135,7 @@ void Player::handleEvents(sf::Event& e)
 
 void Player::drawTo(sf::RenderWindow& window)
 {
-	setPosition(getPosition().x, position.y);
+	setPosition(position.x, position.y);
 	bounds.setPosition(getPosition());
 	window.draw(*this);
 	window.draw(bounds);
@@ -148,6 +158,11 @@ double Player::setVertical(double s)
 {
 	verticalSpeed = s;
 	return verticalSpeed;
+}
+
+double Player::getHorizontal()
+{
+	return horizontalSpeed;
 }
 
 bool Player::getJumping()
@@ -181,9 +196,11 @@ bool Player::handleBreathing()
 	return true;
 }
 
-void Player::setBreathing(sf::Int64 dt)
+void Player::setBreathing(float dt)
 {
 	setTexture(breathingTexture);
+	
+	//top left width height
 
 	animationTimeIdle += dt;
 
@@ -196,6 +213,10 @@ void Player::setBreathing(sf::Int64 dt)
 
 bool Player::handleJumping()
 {
+	if (!landingTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/landing.png")) {
+		std::cerr << "Nie wczytano landing\n";
+		return false;
+	}
 
 	if (!jumpingTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/jump.png")) {
 		std::cerr << "Nie wczytano tekstury gracza *tileset jumping\n";
@@ -207,7 +228,14 @@ bool Player::handleJumping()
 
 void Player::setJumping()
 {
-	setTexture(jumpingTexture);
+	if (verticalSpeed > 0) {
+		setTexture(landingTexture);
+		setTextureRect(sf::IntRect(0, 0, 17, 34));
+	}
+	else if (verticalSpeed < 0) {
+		setTexture(jumpingTexture);
+		setTextureRect(sf::IntRect(0, 0, 17, 34));
+	}
 }
 
 bool Player::handleRunning()
@@ -232,7 +260,7 @@ bool Player::handleRunning()
 	return true;
 }
 
-void Player::setRunning(sf::Int64 dt)
+void Player::setRunning(float dt)
 {
 	setTexture(runningTexture);
 
@@ -245,17 +273,20 @@ void Player::setRunning(sf::Int64 dt)
 	}
 }
 
-void Player::handleTextureChange(sf::Int64 dt)
+void Player::handleTextureChange(float dt)
 {
-
-	if (isGrounded) {
-		setBreathing(dt);
-	}
-	else if (left || right) {
+	if (left || right) {
 		setRunning(dt);
 	}
-	else if (isJumping) {
+
+	if (isJumping) {
 		setJumping();
 	}
+
+	if (isGrounded && !left && !right) {
+		setBreathing(dt);
+		setTextureRect({ BreathingTextureVector[0] });
+	}
+
 }
 
