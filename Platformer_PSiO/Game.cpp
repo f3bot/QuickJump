@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Platform.h"
 #include "MovingPlatform.h"
+#include "Bomb.h"
 #include <iostream>
 void Game::initVariables()
 {
@@ -12,9 +13,10 @@ void Game::initVariables()
 
 void Game::movePlatforms(Player& player)
 {
-    for (auto a : platformVec) {
+    for (auto &a : platformVec) {
         a->moveUp(0.2 * player.getVertical()); // Platforms will move in the opposite direction as the player, this will give the 
     }                                           //Illusion that the world is smoothly generated, rather than platforms just appearing out of nowhere
+
 }
 
 void Game::handleWorldGeneration(Player& player)
@@ -60,7 +62,13 @@ void Game::initializeGameWithPlatforms()
 {
     platformVec = {
         {new Platform(200.f, 350.f)},
-        {new Platform(200.f, 150.f)}
+        {new Platform(200.f, 150.f)},
+        {new Platform(200.f, -50.f)},
+        {new Platform(200.f, -250.f)},
+        {new Platform(200.f, -450.f)},
+        {new Platform(200.f, -650.f)},
+        {new Platform(200.f, -850.f)},
+        
     };
 }
 
@@ -68,6 +76,7 @@ int Game::run()
 {
     sf::Clock clock;
     sf::View view = window.getDefaultView();
+    Bomb bomb;
 
     Background background_texture(window);
     Player player(window);
@@ -91,28 +100,34 @@ int Game::run()
         window.clear();
 
 
-        background_texture.drawBackground(window);
+        if (!player.getDead()) {
+            background_texture.drawBackground(window);
 
-        for (auto& a : platformVec) {
-            movePlatforms(player);
-            a->playerBlockCollision(player);
-            a->drawTo(window);
+            for (auto& a : platformVec) {
+                movePlatforms(player);
+                a->playerBlockCollision(player);
+                a->drawTo(window);
+            }
+
+            handleWorldGeneration(player);
+
+            player.movementHorizontal();
+            player.movementJump();
+            background_texture.move(player.getHorizontal(), player.getVertical());
+
+            view.setCenter(player.getPosition());
+            window.setView(view);
+
+            player.drawTo(window);
+            player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
+
+
+            bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
+
+
+
+            clock.restart();
         }
-
-        handleWorldGeneration(player);
-
-        player.movementHorizontal();
-        player.movementJump();
-        background_texture.move(player.getHorizontal(), player.getVertical());
-
-        view.setCenter(player.getPosition());
-        window.setView(view);
-        player.borderCollision(window);
-        
-        player.drawTo(window);
-        player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
-
-        clock.restart();
 
         window.display();
     }

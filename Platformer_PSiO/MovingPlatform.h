@@ -15,5 +15,5 @@ public:
 	void movingPlatformCollision(Player& player);
 	MovingPlatform(float xPos, float yPos);
 	void DrawTo(sf::RenderWindow& window);
+	void debug();
 };
-

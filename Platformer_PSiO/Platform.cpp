@@ -7,19 +7,38 @@ Platform::Platform(float xPos, float yPos)
 	rect.setSize(size);
 	rect.setPosition(xPos, yPos);
 
-	t.loadFromFile("assets/decorative_obj.png");
-
 	handleTexture();
 
+	isStanding = false;
+	isDestroyed = false;
 
 	std::cout << "Utworzono platforme\n";
 	std::cout << rect.getPosition().x << "  " << rect.getGlobalBounds().top << std::endl;
 
 }
 
+
+
 Platform::~Platform()
 {
 	std::cout << "Usunieto platforme\n";
+}
+
+bool Platform::handleTexture()
+{
+	if (!t.loadFromFile("assets/Platform_x.png")) {
+		std::cerr << "Nie wczytano tekstury platformy\n";
+		return false;
+	}
+	else {
+		std::cerr << "Wczytano teksture\n";
+	}
+
+	t.setRepeated(true);
+	rect.setTexture(&t);
+	rect.setTextureRect(sf::IntRect(1, 1, 96, 16));
+
+	return true;
 }
 
 void Platform::drawTo(sf::RenderWindow& window)
@@ -42,38 +61,15 @@ void Platform::playerBlockCollision(Player& player)
 	if (bottomPlayer >= topPlat && bottomPlayer <= bottomPlat && leftPlayer >= leftPlat && rightPlayer <= rightPlat) {
 		if (player.getVertical() >= 0) {
 				player.isGrounded = true;
+				
 		}
 	}
-
-}
-
-void Platform::checkForFalling(Player& player)
-{
-	sf::FloatRect platformBounds =  rect.getGlobalBounds();
-	sf::FloatRect playerBounds = player.getGlobalBounds();
 
 }
 
 Platform::Platform()
 {
 	std::cout << "Defualt Constructor\n";
-}
-
-bool Platform::handleTexture()
-{
-	if (!t.loadFromFile("assets/decorative_obj.png")) {
-		std::cerr << "Nie wczytano tekstury platformy\n";
-		return false;
-	}
-	else { 
-		std::cerr << "Wczytano teksture\n";
-	}
-
-	t.setRepeated(true);
-	rect.setTexture(&t);
-	rect.setTextureRect(sf::IntRect(400, 144, 96 ,16));
-
-	return true;
 }
 
 float Platform::getPositionY()

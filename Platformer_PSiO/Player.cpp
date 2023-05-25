@@ -40,6 +40,7 @@ Player::Player(sf::RenderWindow& window) : sf::Sprite()
 	isDead = false;
 	left = false;
 	right = false;
+	canMove = true;
 
 	//
 
@@ -76,13 +77,13 @@ void Player::movementHorizontal()
 {
 	horizontalSpeed = 0;
 
-	if (left) {
+	if (left && canMove) {
 		setScale({ -2.5, 2.5 });
 		horizontalSpeed = -2.5f;
 		position.x += horizontalSpeed;
 		setOrigin(getLocalBounds().width, 0);
 	}
-	if (right) {
+	if (right && canMove) {
 		horizontalSpeed = 2.5f;
 		position.x += horizontalSpeed;
 		setScale({ 2.5, 2.5 });
@@ -96,14 +97,8 @@ void Player::movementHorizontal()
 void Player::handleEvents(sf::Event& e)
 {
 	if (e.type == sf::Event::KeyPressed) {
-		if (e.key.code == sf::Keyboard::Z) {
-			if (!isGrounded) {
-				isGrounded = true;
-			}
-			else isGrounded = false;
-		}
-		if (e.key.code == sf::Keyboard::Up && !isJumping) {
-			verticalSpeed = -3.5f;
+		if (e.key.code == sf::Keyboard::Up && !isJumping && canMove) {
+			verticalSpeed = -4.25f;
 			isJumping = true;
 			isGrounded = false;
 		}
@@ -172,6 +167,16 @@ bool Player::getJumping()
 	}
 
 	return false;
+}
+
+bool Player::getDead()
+{
+	return isDead;
+}
+
+void Player::setDead()
+{
+	isDead = true;
 }
 
 bool Player::handleBreathing()
@@ -275,18 +280,14 @@ void Player::setRunning(float dt)
 
 void Player::handleTextureChange(float dt)
 {
-	if (left || right) {
+	if (left && canMove || right && canMove) {
 		setRunning(dt);
 	}
 
-	if (isJumping) {
+	if (isJumping && canMove) {
 		setJumping();
 	}
 
-	if (isGrounded && !left && !right) {
-		setBreathing(dt);
-		setTextureRect({ BreathingTextureVector[0] });
-	}
 
 }
 

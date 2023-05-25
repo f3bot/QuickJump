@@ -21,10 +21,10 @@ void MovingPlatform::moveHorizontally(Player& player)
 
 void MovingPlatform::movingPlatformCollision(Player& player)
 {
-		float leftPlat = getGlobalBounds().left;
-		float topPlat = getGlobalBounds().top;
-		float rightPlat = getGlobalBounds().left + getGlobalBounds().width;
-		float bottomPlat = getGlobalBounds().top + getGlobalBounds().height;
+		float leftPlat = movingRect.getGlobalBounds().left;
+		float topPlat = movingRect.getGlobalBounds().top;
+		float rightPlat = movingRect.getGlobalBounds().left + getGlobalBounds().width;
+		float bottomPlat = movingRect.getGlobalBounds().top + getGlobalBounds().height;
 
 		float leftPlayer = player.getGlobalBounds().left;
 		float topPlayer = player.getGlobalBounds().top;
@@ -35,6 +35,7 @@ void MovingPlatform::movingPlatformCollision(Player& player)
 			if (player.getVertical() >= 0) {
 				playerPlatformContact = true;
 				player.isGrounded = true;
+				std::cout << "Kolizja\n";
 			}
 		}
 }
@@ -57,4 +58,9 @@ void MovingPlatform::DrawTo(sf::RenderWindow& window)
 {
 	window.draw(movingRect);
 	std::cout << " a\n";
+}
+
+void MovingPlatform::debug()
+{
+	std::cout << "Debugn\n";
 }

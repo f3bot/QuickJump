@@ -14,9 +14,9 @@ private:
 
 	//Movement variables
 
-
 	bool isJumping;
 	bool isDead;
+
 	const float gravitationalForce = 0.05f;
 
 	//Bounds
@@ -48,6 +48,8 @@ private:
 public:
 	bool left;
 	bool right;
+
+	bool canMove;
 
 	sf::Vector2f position;
 	bool isGrounded;
@@ -92,5 +94,7 @@ public:
 	bool getJumping();
 
 	//Score and Death handling
+	bool getDead();
+	void setDead();
 };
 
