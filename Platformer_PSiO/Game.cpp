@@ -4,6 +4,7 @@
 #include "Platform.h"
 #include "MovingPlatform.h"
 #include "Bomb.h"
+#include "Coin.h"
 #include <iostream>
 void Game::initVariables()
 {
@@ -77,6 +78,7 @@ int Game::run()
     sf::Clock clock;
     sf::View view = window.getDefaultView();
     Bomb bomb;
+    Coin coin;
 
     Background background_texture(window);
     Player player(window);
@@ -124,7 +126,7 @@ int Game::run()
 
 
             bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-
+            coin.updateCoin(player, window, clock.getElapsedTime().asMicroseconds());
 
 
             clock.restart();
