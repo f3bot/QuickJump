@@ -18,12 +18,15 @@ private:
 	bool isDestroyed;
 	bool isStanding;
 
+	float animationTime;
+	int animationState;
+
 public:
 	Platform(float xPos, float yPos);
 	Platform();
 	~Platform();
 
-	void animateDestruction();
+	void setDestruction(float dt);
 
 	void drawTo(sf::RenderWindow& window);
 	void playerBlockCollision(Player& player);
@@ -32,6 +35,7 @@ public:
 	float getPositionY();
 	bool handleTexture();
 
+	int getAnimationState();
 
 	void moveUp(float verticalSpeed);
 };

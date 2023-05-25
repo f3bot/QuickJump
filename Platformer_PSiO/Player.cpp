@@ -134,6 +134,7 @@ void Player::drawTo(sf::RenderWindow& window)
 	bounds.setPosition(getPosition());
 	window.draw(*this);
 	window.draw(bounds);
+	isGrounded = false;
 }
 
 void Player::borderCollision(sf::RenderWindow& window)

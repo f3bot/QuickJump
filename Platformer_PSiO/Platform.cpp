@@ -12,12 +12,13 @@ Platform::Platform(float xPos, float yPos)
 	isStanding = false;
 	isDestroyed = false;
 
+	animationTime = 0;
+	animationState = 0;
+
 	std::cout << "Utworzono platforme\n";
 	std::cout << rect.getPosition().x << "  " << rect.getGlobalBounds().top << std::endl;
 
 }
-
-
 
 Platform::~Platform()
 {
@@ -36,18 +37,33 @@ bool Platform::handleTexture()
 
 	t.setRepeated(true);
 	rect.setTexture(&t);
-	rect.setTextureRect(sf::IntRect(1, 1, 96, 16));
+
+	//Populating the vector
+
+	sf::FloatRect a[9] = { {1,1,96, 16}, {1,18,96,16 }, {1,35,96,16}, {1,52, 96, 16}, //Tileset coordinates or smth
+	{1,69,96,16}, {1,86,96,16}, {1,103,96,16}, {1, 120, 96, 16}, {1,137,96,16}
+	};
+
+	textureVector.insert(
+		textureVector.begin(),
+		std::begin(a),
+		std::end(a)
+	);
+
+	rect.setTextureRect(textureVector[0]);
 
 	return true;
 }
 
 void Platform::drawTo(sf::RenderWindow& window)
 {
+	isStanding = false;
 	window.draw(rect);
 }
 
 void Platform::playerBlockCollision(Player& player)
 {
+
 	float leftPlat =  rect.getGlobalBounds().left;
 	float topPlat =  rect.getGlobalBounds().top;
 	float rightPlat =  rect.getGlobalBounds().left +  rect.getGlobalBounds().width;
@@ -60,11 +76,10 @@ void Platform::playerBlockCollision(Player& player)
 
 	if (bottomPlayer >= topPlat && bottomPlayer <= bottomPlat && leftPlayer >= leftPlat && rightPlayer <= rightPlat) {
 		if (player.getVertical() >= 0) {
-				player.isGrounded = true;
-				
+			player.isGrounded = true;
+			isStanding = true;
 		}
 	}
-
 }
 
 Platform::Platform()
@@ -81,4 +96,24 @@ float Platform::getPositionY()
 void Platform::moveUp(float verticalSpeed)
 {
 	 rect.move(0, -1 * verticalSpeed);
+}
+
+int Platform::getAnimationState()
+{
+	return animationState;
+}
+
+
+void Platform::setDestruction(float dt)
+{
+	if (isStanding) {
+		animationTime += dt;
+
+		if (animationTime >= 250000) {
+			animationState = (animationState + 1) % textureVector.size();
+			rect.setTextureRect(textureVector[animationState]);
+			animationTime = 0;
+		}
+	}
+
 }
