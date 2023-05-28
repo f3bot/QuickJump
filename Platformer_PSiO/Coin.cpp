@@ -27,8 +27,7 @@ void Coin::changePosition(Platform* platform, Player& player, std::vector<Platfo
 		randomX = randomFloat(40, 320);
 		randomFloatFound = true;
 	}
-	setPosition(platform->getPositionX() + randomX, platform->getPositionY() + 10);
-	std::cout << platform->getPositionY() + player.getPosition().y << std::endl;
+	setPosition(platform->getPositionX() + randomX, platform->getPositionY() - 60);
 
 	auto it = std::find(platVec.begin(), platVec.end(), platform);
 	if (it == platVec.end()) {

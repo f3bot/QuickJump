@@ -95,8 +95,9 @@ int Game::run()
 
     window.setFramerateLimit(144);
 
-    Coin coin(platformVec[2]);
+    Coin* coin;
 
+    coin = new Coin(platformVec[2]);
     while (window.isOpen())
     {
         sf::Event event;
@@ -107,7 +108,7 @@ int Game::run()
             player.handleEvents(event);
         }
 
-        window.clear();
+        window.clear(sf::Color::Black);
 
 
         if (!player.getDead()) {
@@ -134,7 +135,7 @@ int Game::run()
 
 
             bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-            coin.updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[1], platformVec);
+            coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[3], platformVec);
 
 
             clock.restart();

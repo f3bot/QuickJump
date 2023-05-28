@@ -156,6 +156,7 @@
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Platformer_PSiO.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Spikes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Spikes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
