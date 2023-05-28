@@ -16,6 +16,30 @@ Coin::Coin(Platform *plat) : sf::Sprite()
 	animationTime = 0;
 	animationState = 0;
 	score = 0;
+	randomX = 0;
+
+	randomFloatFound = false;
+}
+
+void Coin::changePosition(Platform* platform, Player& player)
+{
+	if (!randomFloatFound) {
+		randomX = randomFloat(40, 320);
+		randomFloatFound = true;
+	}
+	setPosition(platform->getPositionX() + randomX, platform->getPositionY() + 10);
+	std::cout << randomX << std::endl;
+	if (platform->getPositionY() + player.getPosition().y < 0) {
+		randomFloatFound = false;
+	}
+}
+
+void Coin::collideWithPlayer(Player& player)
+{
+	if (player.getGlobalBounds().intersects(getGlobalBounds())) {
+		std::cout << "Kolizja\n";
+	}
+
 }
 
 bool Coin::handleTexture()
@@ -49,9 +73,16 @@ void Coin::animateCoin(float dt)
 
 }
 
+float Coin::randomFloat(float min, float max)
+{
+	static std::default_random_engine e{ static_cast<long unsigned int>(time(0)) };
+	std::uniform_real_distribution<float> d{ min, max };
+	return d(e);
+}
+
 void Coin::updateCoin(Player& player, sf::RenderWindow& window, float dt, Platform *platform)
 {
-	setPosition(position);
+	changePosition(platform, player);
 	animateCoin(dt);
 	window.draw(*this);
 }

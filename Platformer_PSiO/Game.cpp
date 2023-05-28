@@ -46,18 +46,25 @@ sf::Vector2f Game::randomCoordinates()
 
 bool Game::deleteOutOfBoundsPlatforms(Player& player)
 {
-    for (auto a : platformVec) {
-        if (a->getPositionY() > player.getPosition().y + height + 100 || a->getAnimationState() == 8) { // + 300, because we want the platform to slightly come back if the player falls down
-            for (auto it = platformVec.begin(); it != platformVec.end(); ) { // Then, we will delete the player and end the game at height + 301 or smth
-                delete* it;
-                it = platformVec.erase(it);
-                return true;
-            }
+    bool platformsDeleted = false;
+
+    for (auto it = platformVec.begin(); it != platformVec.end(); )
+    {
+        if ((*it)->getPositionY() > player.getPosition().y + height + 100 || (*it)->getAnimationState() == 8)
+        {
+            delete* it;
+            it = platformVec.erase(it);
+            platformsDeleted = true;
+        }
+        else
+        {
+            ++it;
         }
     }
 
-    return false;
+    return platformsDeleted;
 }
+
 
 void Game::initializeGameWithPlatforms()
 {
