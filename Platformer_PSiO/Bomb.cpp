@@ -61,7 +61,7 @@ void Bomb::animateExplosion(float dt, Player& player)
         setTextureRect(explosionVector[0]);
         hasSetTextureRect = true;
     }
-    else if (animationTimeExplosion >= 200000) {
+    else if (animationTimeExplosion >= 100000) {
         animationStateExplosion = (animationStateExplosion + 1) % explosionVector.size();
         setTextureRect(explosionVector[animationStateExplosion]);
         animationTimeExplosion = 0;

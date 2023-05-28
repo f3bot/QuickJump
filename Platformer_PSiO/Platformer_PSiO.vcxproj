@@ -151,6 +151,7 @@
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Platformer_PSiO.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />

@@ -134,7 +134,7 @@ int Game::run()
 
 
             bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-            coin.updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[1]);
+            coin.updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[1], platformVec);
 
 
             clock.restart();

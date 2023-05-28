@@ -21,15 +21,17 @@ Coin::Coin(Platform *plat) : sf::Sprite()
 	randomFloatFound = false;
 }
 
-void Coin::changePosition(Platform* platform, Player& player)
+void Coin::changePosition(Platform* platform, Player& player, std::vector<Platform*> platVec)
 {
 	if (!randomFloatFound) {
 		randomX = randomFloat(40, 320);
 		randomFloatFound = true;
 	}
 	setPosition(platform->getPositionX() + randomX, platform->getPositionY() + 10);
-	std::cout << randomX << std::endl;
-	if (platform->getPositionY() + player.getPosition().y < 0) {
+	std::cout << platform->getPositionY() + player.getPosition().y << std::endl;
+
+	auto it = std::find(platVec.begin(), platVec.end(), platform);
+	if (it == platVec.end()) {
 		randomFloatFound = false;
 	}
 }
@@ -80,9 +82,9 @@ float Coin::randomFloat(float min, float max)
 	return d(e);
 }
 
-void Coin::updateCoin(Player& player, sf::RenderWindow& window, float dt, Platform *platform)
+void Coin::updateCoin(Player& player, sf::RenderWindow& window, float dt, Platform* platform, std::vector<Platform*> platVec)
 {
-	changePosition(platform, player);
+	changePosition(platform, player, platVec);
 	animateCoin(dt);
 	window.draw(*this);
 }

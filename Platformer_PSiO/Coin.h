@@ -28,7 +28,7 @@ private:
 
 public:
 	Coin(Platform *plat);
-	void changePosition(Platform *platform, Player& player);
+	void changePosition(Platform *platform, Player& player, std::vector<Platform*> platVec);
 	void collideWithPlayer(Player& player);
 	bool handleTexture();
 	void animateCoin(float dt);
@@ -37,6 +37,6 @@ public:
 
 	float randomFloat(float min, float max);
 
-	void updateCoin(Player& player, sf::RenderWindow& window,float dt, Platform *platform);
+	void updateCoin(Player& player, sf::RenderWindow& window,float dt, Platform *platform, std::vector<Platform*> platVec);
 };
 
