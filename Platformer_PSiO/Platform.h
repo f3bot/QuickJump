@@ -33,6 +33,10 @@ public:
 
 
 	float getPositionY();
+	float getPositionX();
+
+	float getGlobalBoundsTop();
+
 	bool handleTexture();
 
 	int getAnimationState();

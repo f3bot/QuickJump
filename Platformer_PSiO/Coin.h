@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Player.h"
+#include "Platform.h"
 
 class Coin :public sf::Sprite 
 {
@@ -18,12 +19,12 @@ private:
 	int animationState;
 
 public:
-	Coin();
-	void changePosition();
+	Coin(Platform *plat);
+	void changePosition(Platform *platform);
 	void collideWithPlayer(Player& player);
 	bool handleTexture();
 	void animateCoin(float dt);
 
-	void updateCoin(Player& player, sf::RenderWindow& window,float dt);
+	void updateCoin(Player& player, sf::RenderWindow& window,float dt, Platform *platform);
 };
 

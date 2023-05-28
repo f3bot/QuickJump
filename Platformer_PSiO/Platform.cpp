@@ -93,6 +93,16 @@ float Platform::getPositionY()
 	return rect.getPosition().y;
 }
 
+float Platform::getPositionX()
+{
+	return rect.getPosition().x;
+}
+
+float Platform::getGlobalBoundsTop()
+{
+	return rect.getGlobalBounds().top;
+}
+
 void Platform::moveUp(float verticalSpeed)
 {
 	 rect.move(0, -1 * verticalSpeed);

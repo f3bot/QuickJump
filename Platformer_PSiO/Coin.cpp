@@ -1,15 +1,17 @@
 #include "Coin.h"
 
-Coin::Coin() : sf::Sprite()
+Coin::Coin(Platform *plat) : sf::Sprite()
 {
 
 	handleTexture();
 
+	position.x = plat->getPositionX();
+	position.y = plat->getGlobalBoundsTop();
 
 	setTexture(coinTexture);
 	setTextureRect(textureVector[0]);
 	setScale({ 0.5,0.5 });
-	setPosition(200.f, 150.f);
+	setPosition(position);
 
 	animationTime = 0;
 	animationState = 0;
@@ -47,8 +49,9 @@ void Coin::animateCoin(float dt)
 
 }
 
-void Coin::updateCoin(Player& player, sf::RenderWindow& window, float dt)
+void Coin::updateCoin(Player& player, sf::RenderWindow& window, float dt, Platform *platform)
 {
+	setPosition(position);
 	animateCoin(dt);
 	window.draw(*this);
 }

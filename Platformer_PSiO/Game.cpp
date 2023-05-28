@@ -78,7 +78,6 @@ int Game::run()
     sf::Clock clock;
     sf::View view = window.getDefaultView();
     Bomb bomb;
-    Coin coin;
 
     Background background_texture(window);
     Player player(window);
@@ -88,6 +87,8 @@ int Game::run()
     sf::RenderWindow window(sf::VideoMode(width, height), "Platformer!");
 
     window.setFramerateLimit(144);
+
+    Coin coin(platformVec[2]);
 
     while (window.isOpen())
     {
@@ -126,7 +127,7 @@ int Game::run()
 
 
             bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-            coin.updateCoin(player, window, clock.getElapsedTime().asMicroseconds());
+            coin.updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[1]);
 
 
             clock.restart();
