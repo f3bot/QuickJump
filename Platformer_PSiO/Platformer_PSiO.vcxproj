@@ -147,24 +147,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedGIF.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
+    <ClCompile Include="Options.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Platformer_PSiO.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Spikes.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedGIF.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Credits.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MovingPlatform.h" />
+    <ClInclude Include="Options.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Spikes.h" />

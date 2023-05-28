@@ -5,6 +5,7 @@
 #include "MovingPlatform.h"
 #include "Bomb.h"
 #include "Coin.h"
+#include "MainMenu.h"
 #include <iostream>
 void Game::initVariables()
 {
@@ -94,10 +95,11 @@ int Game::run()
     sf::RenderWindow window(sf::VideoMode(width, height), "Platformer!");
 
     window.setFramerateLimit(144);
-
     Coin* coin;
-
     coin = new Coin(platformVec[2]);
+
+    MainMenu mainMenu(width, height);
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -106,40 +108,46 @@ int Game::run()
             if (event.type == sf::Event::Closed)
                 window.close();
             player.handleEvents(event);
+            mainMenu.processEvents(event);
         }
 
         window.clear(sf::Color::Black);
 
-
-        if (!player.getDead()) {
-            background_texture.drawBackground(window);
-
-            for (auto& a : platformVec) {
-                movePlatforms(player);
-                a->playerBlockCollision(player);
-                a->setDestruction(clock.getElapsedTime().asMicroseconds());
-                a->drawTo(window);
-            }
-
-            handleWorldGeneration(player);
-
-            player.movementHorizontal();
-            player.movementJump();
-            background_texture.move(player.getHorizontal(), player.getVertical());
-
-            view.setCenter(player.getPosition());
-            window.setView(view);
-
-            player.drawTo(window);
-            player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
-
-
-            bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-            coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[3], platformVec);
-
-
-            clock.restart();
+        if (!mainMenu.getState()) {
+            mainMenu.drawTo(window);
         }
+        else {
+            if (!player.getDead()) {
+                background_texture.drawBackground(window);
+
+                for (auto& a : platformVec) {
+                    movePlatforms(player);
+                    a->playerBlockCollision(player);
+                    a->setDestruction(clock.getElapsedTime().asMicroseconds());
+                    a->drawTo(window);
+                }
+
+                handleWorldGeneration(player);
+
+                player.movementHorizontal();
+                player.movementJump();
+                background_texture.move(player.getHorizontal(), player.getVertical());
+
+                view.setCenter(player.getPosition());
+                window.setView(view);
+
+                player.drawTo(window);
+                player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
+
+
+                bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
+                coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[3], platformVec);
+
+
+                clock.restart();
+            }
+        }
+
 
         window.display();
     }

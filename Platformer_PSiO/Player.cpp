@@ -1,4 +1,5 @@
 ﻿#include "Player.h"
+#include "Options.h"
 
 Player::Player(sf::RenderWindow& window) : sf::Sprite()
 {
@@ -178,6 +179,14 @@ bool Player::getDead()
 void Player::setDead()
 {
 	isDead = true;
+}
+
+void Player::updateAll(float dt, sf::RenderWindow& window, sf::Event& e)
+{
+	movementHorizontal();
+	movementJump();
+	window.draw(*this);
+	handleTextureChange(dt);
 }
 
 bool Player::handleBreathing()

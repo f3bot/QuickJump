@@ -96,5 +96,7 @@ public:
 	//Score and Death handling
 	bool getDead();
 	void setDead();
+	
+	void updateAll(float dt, sf::RenderWindow& window, sf::Event& e);
 };
 

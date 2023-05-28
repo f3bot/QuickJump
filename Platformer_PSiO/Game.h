@@ -25,6 +25,8 @@ public:
 	void initializeGameWithPlatforms();
 	int run();
 
+	void updateMainGame(Player& player);
+
 	float randomFloat(float min, float max);
 	Game();
 };
