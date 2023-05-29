@@ -111,7 +111,7 @@ int Game::run()
             if (event.type == sf::Event::Closed)
                 window.close();
             player.handleEvents(event);
-            mainMenu->processEvents(event, player);
+            mainMenu->processEvents(event, player, background_texture, platformVec);
         }
 
         window.clear(sf::Color::Black);
@@ -148,6 +148,7 @@ int Game::run()
 
 
                 clock.restart();
+
             }
         }
 

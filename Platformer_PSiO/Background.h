@@ -5,13 +5,16 @@
 class Background :public sf::Sprite
 {
 private:
+	int selectedMap;
+
 	sf::Texture texture;
 	sf::Texture lowerTexture_set;
-	sf::Sprite lowerTexture;
 public:
 	Background(sf::RenderWindow& window);
-	void changeTexture(sf::Texture t);
+	void setTexture_();
 	void updatePosition(sf::RenderWindow& window, sf::View& view);
+
+	int setSelected(int s);
 	void drawBackground(sf::RenderWindow& window);
 };
 

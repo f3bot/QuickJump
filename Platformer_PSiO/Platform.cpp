@@ -14,6 +14,8 @@ Platform::Platform(float xPos, float yPos)
 
 	animationTime = 0;
 	animationState = 0;
+	selected = 0;
+
 
 	std::cout << "Utworzono platforme\n";
 	std::cout << rect.getPosition().x << "  " << rect.getGlobalBounds().top << std::endl;
@@ -27,12 +29,15 @@ Platform::~Platform()
 
 bool Platform::handleTexture()
 {
-	if (!t.loadFromFile("assets/Platform_x.png")) {
-		std::cerr << "Nie wczytano tekstury platformy\n";
-		return false;
+	if (selected == 0) {
+		if (!t.loadFromFile("assets/Platform_x.png")) {
+			std::cerr << "Nie wczytano tekstury platformy\n";
+		}
 	}
 	else {
-		std::cerr << "Wczytano teksture\n";
+		if (!t.loadFromFile("assets/Platform_x_2.png")) {
+			std::cerr << "Nie wczytano tekstury platformy\n";
+		}
 	}
 
 	t.setRepeated(true);
@@ -101,6 +106,17 @@ float Platform::getPositionX()
 float Platform::getGlobalBoundsTop()
 {
 	return rect.getGlobalBounds().top;
+}
+
+int Platform::setSelected(int s)
+{
+	selected = s;
+	return selected;
+}
+
+void Platform::setTextures()
+{
+	rect.setTexture(&t);
 }
 
 void Platform::moveUp(float verticalSpeed)

@@ -21,6 +21,8 @@ private:
 	float animationTime;
 	int animationState;
 
+	int selected;
+
 public:
 	Platform(float xPos, float yPos);
 	Platform();
@@ -40,6 +42,10 @@ public:
 	bool handleTexture();
 
 	int getAnimationState();
+
+	int setSelected(int s);
+	void setTextures();
+
 
 	void moveUp(float verticalSpeed);
 };

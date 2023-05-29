@@ -65,7 +65,7 @@ bool MainMenu::getState()
 	return gameStarted;
 }
 
-void MainMenu::processEvents(sf::Event& e, Player& player)
+void MainMenu::processEvents(sf::Event& e, Player& player, Background& background, std::vector<Platform*> platVec)
 {
 	if (e.type == sf::Event::KeyPressed) {
 		if (e.key.code == sf::Keyboard::Up) {
@@ -84,8 +84,14 @@ void MainMenu::processEvents(sf::Event& e, Player& player)
 
 		if (e.key.code == sf::Keyboard::Enter) {
 			if (MainMenuSelected == 0) {
+				background.setSelected(options->returnMapSelected());
+				background.setTexture_();
 				player.setSelectedTexture(options->returnselectedSpriteIndex());
 				player.setTextures();
+				for (auto a : platVec) {
+					a->setSelected(options->returnMapSelected());
+					a->setTextures();
+				}
 				gameStarted = true;
 			}
 
@@ -100,12 +106,7 @@ void MainMenu::processEvents(sf::Event& e, Player& player)
 
 		if (e.key.code == sf::Keyboard::Escape) {
 			showOptions = false;
-			if (options != nullptr) {
-				player.setSelectedTexture(options->returnselectedSpriteIndex());
-				
-				delete options;
-				options = nullptr;
-			}
+			player.setSelectedTexture(options->returnselectedSpriteIndex());
 		}
 
 		if (e.key.code == sf::Keyboard::Left || e.key.code == sf::Keyboard::Right) {
@@ -132,7 +133,6 @@ void MainMenu::drawTo(sf::RenderWindow& window)
 			window.draw(mainMenu[i]);
 		}
 	}
-
 }
 
 int MainMenu::MainMenuPressed()

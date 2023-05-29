@@ -34,11 +34,11 @@ Options::Options()
 	}
 
 	std::vector<std::string> mapNames = {
-		"Stringstar Field", "Dark Church"
+		"Dark Church", "Gloomy Caves"
 	};
 
 	std::vector<sf::Vector2f> mapPosition = {
-		{90, 650}, {125 ,720}
+		{120, 650}, {120 ,720}
 	};
 
 	for (int i = 0; i < 2; i++) {

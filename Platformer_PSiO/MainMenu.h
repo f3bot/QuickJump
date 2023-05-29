@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "Options.h"
+#include "Platform.h"
 #pragma once
 
 #define max_num 4
@@ -18,7 +19,7 @@ public:
 	bool getState();
 
 
-	void processEvents(sf::Event& e, Player& player); 
+	void processEvents(sf::Event& e, Player& player, Background& background, std::vector<Platform*> platVec); 
 
 	int MainMenuPressed();
 
