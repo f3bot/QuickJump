@@ -11,6 +11,8 @@ class Player : public sf::Sprite
 {
 
 private:
+	//Texture selection
+	int selectedTexture;
 
 	//Movement variables
 
@@ -82,6 +84,7 @@ public:
 	bool handleRunning();
 	void setRunning(float dt);
 
+
 	void handleTextureChange(float dt); //Handle all texture changes 
 
 	//Getters and Setters
@@ -90,6 +93,10 @@ public:
 	double setVertical(double s);
 
 	double getHorizontal();
+
+	int setSelectedTexture(int s);
+
+	void setTextures();
 
 	bool getJumping();
 

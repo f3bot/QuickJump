@@ -90,10 +90,12 @@ int Options::setIndex(sf::Event& e)
 	if (e.key.code == sf::Keyboard::Left) {
 		selectedSpriteIndex = 1;
 		boundingBox.setSize({otherGuy.getGlobalBounds().width, otherGuy.getGlobalBounds().height});
+		std::cout << selectedSpriteIndex << std::endl;
 	}
 	else if (e.key.code == sf::Keyboard::Right) {
 		selectedSpriteIndex = 0;
 		boundingBox.setSize({ jungleGuy.getGlobalBounds().width, jungleGuy.getGlobalBounds().height });
+		std::cout << selectedSpriteIndex << std::endl;
 	}
 
 	return selectedSpriteIndex;

@@ -53,6 +53,8 @@ Player::Player(sf::RenderWindow& window) : sf::Sprite()
 	bounds.setOutlineThickness(2.f);
 	bounds.setOutlineColor(sf::Color::Red);
 	bounds.setFillColor(sf::Color::Transparent);
+
+	selectedTexture = 0;
 }
 
 void Player::movementJump()
@@ -162,6 +164,20 @@ double Player::getHorizontal()
 	return horizontalSpeed;
 }
 
+int Player::setSelectedTexture(int s)
+{
+	std::cout << selectedTexture << std::endl;	
+	selectedTexture = s;
+	std::cout << selectedTexture << std::endl;
+	return selectedTexture;
+}
+
+void Player::setTextures()
+{
+	handleJumping();
+	handleRunning();
+}
+
 bool Player::getJumping()
 {
 	if (isJumping) {
@@ -228,14 +244,30 @@ void Player::setBreathing(float dt)
 
 bool Player::handleJumping()
 {
-	if (!landingTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/landing.png")) {
-		std::cerr << "Nie wczytano landing\n";
-		return false;
-	}
+	if (selectedTexture == 0) {
+		if (!landingTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/landing.png")) {
+			std::cerr << "Nie wczytano landing\n";
+			return false;
+		}
 
-	if (!jumpingTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/jump.png")) {
-		std::cerr << "Nie wczytano tekstury gracza *tileset jumping\n";
-		return false;
+		if (!jumpingTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/jump.png")) {
+			std::cerr << "Nie wczytano tekstury gracza *tileset jumping\n";
+			return false;
+		}
+		setTextureRect(sf::IntRect(0, 0, 17, 34));
+		std::cout << "Debug c - jumping\n";
+	}
+	else {
+		if (!landingTexture.loadFromFile("assets/Medieval Warrior Pack 2/Sprites/Fall.png")) {
+			std::cerr << "Nie wczytano landing\n";
+			return false;
+		}
+
+		if (!jumpingTexture.loadFromFile("assets/Medieval Warrior Pack 2/Sprites/Jump.png")) {
+			std::cerr << "Nie wczytano tekstury gracza *tileset jumping\n";
+			return false;
+		}
+		std::cout << "Debug d - landing\n";
 	}
 
 	return true;
@@ -245,32 +277,58 @@ void Player::setJumping()
 {
 	if (verticalSpeed > 0) {
 		setTexture(landingTexture);
-		setTextureRect(sf::IntRect(0, 0, 17, 34));
+		if (selectedTexture == 0) {
+			setTextureRect(sf::IntRect(0, 0, 17, 34));
+		}
+		else {
+			setTextureRect(sf::IntRect(60, 59, 31, 36));
+		}
 	}
 	else if (verticalSpeed < 0) {
 		setTexture(jumpingTexture);
-		setTextureRect(sf::IntRect(0, 0, 17, 34));
+		if (selectedTexture == 0) {
+			setTextureRect(sf::IntRect(0, 0, 17, 34));
+		}
+		else {
+			setTextureRect(sf::IntRect(61, 57, 32, 38));
+		}
 	}
 }
 
 bool Player::handleRunning()
 {
-	if (!runningTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/tileSetRunning.png")) {
-		std::cerr << "Nie wczytano tekstury gracza *tileset Running\n";
-		return false;
+	std::cout << "Selected texture = " << selectedTexture << std::endl;
+
+	if (selectedTexture == 0) {
+		if (!runningTexture.loadFromFile("assets/Jungle Asset Pack/Character/sprites/tileSetRunning.png")) {
+			std::cerr << "Nie wczytano tekstury gracza *tileset Running\n";
+			return false;
+		}
+
+		std::cout << "Debug a\n";
+
+		sf::IntRect a[8] = {
+			{0, 1, 21, 33}, {22, 2, 18, 31}, {45, 2, 15, 31}, {65, 0, 18, 30},
+			{86, 0, 18, 33}, {106, 2, 17, 31}, {127, 2, 17, 31}, {147, 0, 21, 29}
+		};
+		RunningTextureVector.assign(a, a + 8);
 	}
+	else {
+		if (!runningTexture.loadFromFile("assets/Medieval Warrior Pack 2/Sprites/Run.png")) {
+			std::cerr << "Nie wczytano tekstury gracza *tileset Running - 2\n";
+			return false;
+		}
 
+		std::cout << "Debug b\n";
 
+		sf::IntRect a[8] = {
+			{60, 58, 26, 37}, {206, 57, 33, 33}, {360, 57, 26, 37}, {514, 58, 18, 37},
+			{659, 59, 26, 36}, {806, 57, 34, 29}, {957, 58, 26, 36}, {1113, 59, 20, 36}
+		};
+		RunningTextureVector.assign(a, a + 8);
 
-	sf::FloatRect a[8] = { {0,1,21,33}, {22,2,18,31}, {45,2,15,31}, {65,0, 18,30}, //Tileset coordinates or smth
-		{86,0,18,33}, {106,2,17,31}, {127,2,17,31}, {147,0, 21,29}
-	};
-
-	RunningTextureVector.insert(
-		RunningTextureVector.begin(),
-		std::begin(a),
-		std::end(a)
-	);
+		setTextureRect(RunningTextureVector[0]);
+	}
 
 	return true;
 }
@@ -297,7 +355,4 @@ void Player::handleTextureChange(float dt)
 	if (isJumping && canMove) {
 		setJumping();
 	}
-
-
 }
-

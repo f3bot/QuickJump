@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "Player.h"
 #include <iostream>
 #include "Options.h"
 
@@ -24,12 +25,13 @@ MainMenu::MainMenu(float width, float height)
 		mainMenu[i].setPosition(position[i]);
 	}
 
-	MainMenuSelected = -1;
+	MainMenuSelected = 0;
 	gameStarted = false;
 
 	showCredits = false;
 	showOptions = false;
 
+	options = new Options();
 }
 void MainMenu::moveUp()
 {
@@ -63,25 +65,27 @@ bool MainMenu::getState()
 	return gameStarted;
 }
 
-void MainMenu::processEvents(sf::Event& e)
+void MainMenu::processEvents(sf::Event& e, Player& player)
 {
 	if (e.type == sf::Event::KeyPressed) {
 		if (e.key.code == sf::Keyboard::Up) {
 			moveUp();
 			if (showOptions) {
-				options.moveUp();
+				options->moveUp();
 			}
 		}
 
 		if (e.key.code == sf::Keyboard::Down) {
 			moveDown();
 			if (showOptions) {
-				options.moveDown();
+				options->moveDown();
 			}
 		}
 
 		if (e.key.code == sf::Keyboard::Enter) {
 			if (MainMenuSelected == 0) {
+				player.setSelectedTexture(options->returnselectedSpriteIndex());
+				player.setTextures();
 				gameStarted = true;
 			}
 
@@ -93,10 +97,21 @@ void MainMenu::processEvents(sf::Event& e)
 				showCredits = true;
 			}
 		}
+
+		if (e.key.code == sf::Keyboard::Escape) {
+			showOptions = false;
+			if (options != nullptr) {
+				player.setSelectedTexture(options->returnselectedSpriteIndex());
+				
+				delete options;
+				options = nullptr;
+			}
+		}
+
 		if (e.key.code == sf::Keyboard::Left || e.key.code == sf::Keyboard::Right) {
 			if (showOptions) {
-				options.setIndex(e);
-				options.moveLeftRightSprites();
+				options->setIndex(e);
+				options->moveLeftRightSprites();
 			}
 		}
 	}
@@ -107,7 +122,7 @@ void MainMenu::drawTo(sf::RenderWindow& window)
 {
 
 	if (showOptions) {
-		options.drawTo(window);
+		options->drawTo(window);
 	}
 	else if (showCredits) {
 
@@ -127,4 +142,5 @@ int MainMenu::MainMenuPressed()
 
 MainMenu::~MainMenu()
 {
+	std::cout << "Menu zniszczone\n";
 }

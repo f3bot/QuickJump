@@ -95,10 +95,13 @@ int Game::run()
     sf::RenderWindow window(sf::VideoMode(width, height), "Platformer!");
 
     window.setFramerateLimit(144);
+
     Coin* coin;
     coin = new Coin(platformVec[2]);
 
-    MainMenu mainMenu(width, height);
+    MainMenu* mainMenu;
+
+    mainMenu = new MainMenu(width, height);
 
     while (window.isOpen())
     {
@@ -108,13 +111,13 @@ int Game::run()
             if (event.type == sf::Event::Closed)
                 window.close();
             player.handleEvents(event);
-            mainMenu.processEvents(event);
+            mainMenu->processEvents(event, player);
         }
 
         window.clear(sf::Color::Black);
 
-        if (!mainMenu.getState()) {
-            mainMenu.drawTo(window);
+        if (!mainMenu->getState()) {
+            mainMenu->drawTo(window);
         }
         else {
             if (!player.getDead()) {

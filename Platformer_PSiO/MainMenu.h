@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "Player.h"
 #include "Options.h"
 #pragma once
 
@@ -16,7 +17,8 @@ public:
 
 	bool getState();
 
-	void processEvents(sf::Event& e);
+
+	void processEvents(sf::Event& e, Player& player); 
 
 	int MainMenuPressed();
 
@@ -26,7 +28,7 @@ public:
 
 private:
 
-	Options options;
+	Options *options;
 
 	int MainMenuSelected;
 	sf::Font font;
