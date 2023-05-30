@@ -12,7 +12,7 @@ Bomb::Bomb() : sf::Sprite()
         std::cerr << "Explosion texture failed to load\n";
     }
 
-    position.x = 200.f;
+    position.x = 500.f;
     position.y = -400.f;
 
     setTexture(bombTexture);

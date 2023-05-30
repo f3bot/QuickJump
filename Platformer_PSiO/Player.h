@@ -19,7 +19,7 @@ private:
 	bool isJumping;
 	bool isDead;
 
-	const float gravitationalForce = 0.05f;
+	const float gravitationalForce = 0.09f;
 
 	//Bounds
 	sf::RectangleShape bounds;

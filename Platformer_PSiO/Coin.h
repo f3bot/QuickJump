@@ -12,8 +12,12 @@ class Coin :public sf::Sprite
 private:
 	sf::Vector2f position;
 
+	sf::Vector2f updatedPosition;
+
 	sf::Texture coinTexture;
 	std::vector<sf::IntRect> textureVector;
+
+	sf::Sprite coinSprite;
 
 	int score;
 	sf::Font font;
@@ -22,18 +26,24 @@ private:
 	float animationTime;
 	int animationState;
 
+	bool pickedUp;
+
 	bool randomFloatFound;
 
 	float randomX;
 
+	int platformIndex;
 public:
-	Coin(Platform *plat);
+	Coin(Player& player, Platform* plat);
 	void changePosition(Platform *platform, Player& player, std::vector<Platform*> platVec);
-	void collideWithPlayer(Player& player);
+	bool collideWithPlayer(Player& player);
 	bool handleTexture();
 	void animateCoin(float dt);
 
+	int randomInt(int max);
+
 	void updateText();
+
 
 	float randomFloat(float min, float max);
 

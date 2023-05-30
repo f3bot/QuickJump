@@ -2,10 +2,10 @@
 #include "Background.h"
 #include "Player.h"
 #include "Platform.h"
-#include "MovingPlatform.h"
 #include "Bomb.h"
 #include "Coin.h"
 #include "MainMenu.h"
+#include "Spikes.h"
 #include <iostream>
 void Game::initVariables()
 {
@@ -19,7 +19,7 @@ void Game::movePlatforms(Player& player)
         a->moveUp(0.2 * player.getVertical()); // Platforms will move in the opposite direction as the player, this will give the 
     }                                           //Illusion that the world is smoothly generated, rather than platforms just appearing out of nowhere
 
-}
+}//NOT USED RN
 
 void Game::handleWorldGeneration(Player& player)
 {
@@ -51,7 +51,7 @@ bool Game::deleteOutOfBoundsPlatforms(Player& player)
 
     for (auto it = platformVec.begin(); it != platformVec.end(); )
     {
-        if ((*it)->getPositionY() > player.getPosition().y + height + 100 || (*it)->getAnimationState() == 8)
+        if ((*it)->getPositionY() > player.getPosition().y + height - 100 || (*it)->getAnimationState() == 8)
         {
             delete* it;
             it = platformVec.erase(it);
@@ -83,6 +83,8 @@ void Game::initializeGameWithPlatforms()
 
 int Game::run()
 {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
     sf::Clock clock;
     sf::View view = window.getDefaultView();
     Bomb bomb;
@@ -97,7 +99,9 @@ int Game::run()
     window.setFramerateLimit(144);
 
     Coin* coin;
-    coin = new Coin(platformVec[2]);
+    coin = new Coin(player, platformVec[2]);
+
+    Spikes spikes;
 
     MainMenu* mainMenu;
 
@@ -118,13 +122,13 @@ int Game::run()
 
         if (!mainMenu->getState()) {
             mainMenu->drawTo(window);
+            mainMenu->deleteListener();
         }
         else {
             if (!player.getDead()) {
                 background_texture.drawBackground(window);
 
                 for (auto& a : platformVec) {
-                    movePlatforms(player);
                     a->playerBlockCollision(player);
                     a->setDestruction(clock.getElapsedTime().asMicroseconds());
                     a->drawTo(window);
@@ -142,9 +146,9 @@ int Game::run()
                 player.drawTo(window);
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
-
+               // spikes.update(window, player);
                 bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-                coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[3], platformVec);
+                coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
 
 
                 clock.restart();

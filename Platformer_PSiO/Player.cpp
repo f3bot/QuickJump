@@ -101,7 +101,7 @@ void Player::handleEvents(sf::Event& e)
 {
 	if (e.type == sf::Event::KeyPressed) {
 		if (e.key.code == sf::Keyboard::Up && !isJumping && canMove) {
-			verticalSpeed = -4.25f;
+			verticalSpeed = -10.f;
 			isJumping = true;
 			isGrounded = false;
 		}

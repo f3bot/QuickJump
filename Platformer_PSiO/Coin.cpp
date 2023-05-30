@@ -1,45 +1,67 @@
 #include "Coin.h"
+#include "Player.h"
 
-Coin::Coin(Platform *plat) : sf::Sprite()
+Coin::Coin(Player& player, Platform* plat) : sf::Sprite()
 {
 
 	handleTexture();
 
+	if (!font.loadFromFile("fonts/font3.ttf")) {
+		std::cerr << "Nie wczytano fonta\n";
+	}
+
+
 	position.x = plat->getPositionX();
-	position.y = plat->getGlobalBoundsTop();
+	position.y = plat->getPositionY() - 40;
+
+	platformIndex = 0;
 
 	setTexture(coinTexture);
 	setTextureRect(textureVector[0]);
 	setScale({ 0.5,0.5 });
 	setPosition(position);
 
+	score = 0;
+
+
+	scoreText.setFont(font);
+	scoreText.setString(std::to_string(score));
+	scoreText.setCharacterSize(80);
+
+	coinSprite.setTexture(coinTexture);
+	coinSprite.setTextureRect(textureVector[0]);
+	coinSprite.setScale({ 0.75, 0.75 });
+
+
 	animationTime = 0;
 	animationState = 0;
-	score = 0;
 	randomX = 0;
+
 
 	randomFloatFound = false;
 }
 
 void Coin::changePosition(Platform* platform, Player& player, std::vector<Platform*> platVec)
 {
-	if (!randomFloatFound) {
-		randomX = randomFloat(40, 320);
-		randomFloatFound = true;
-	}
-	setPosition(platform->getPositionX() + randomX, platform->getPositionY() - 60);
 
-	auto it = std::find(platVec.begin(), platVec.end(), platform);
-	if (it == platVec.end()) {
-		randomFloatFound = false;
+	if (collideWithPlayer(player)) {
+		int r = 2 + randomInt(3);
+		platformIndex = 2 + r;
+		position.x = platVec[platformIndex]->getPositionX() + randomFloat(30, 160);
+		position.y = platVec[platformIndex]->getPositionY() - 40;
 	}
+
+	setPosition(position);
 }
 
-void Coin::collideWithPlayer(Player& player)
+bool Coin::collideWithPlayer(Player& player)
 {
 	if (player.getGlobalBounds().intersects(getGlobalBounds())) {
-		std::cout << "Kolizja\n";
+		score++;
+		return true;
 	}
+	
+	return false;
 
 }
 
@@ -74,6 +96,13 @@ void Coin::animateCoin(float dt)
 
 }
 
+int Coin::randomInt(int max)
+{
+	return rand() % max;
+}
+
+
+
 float Coin::randomFloat(float min, float max)
 {
 	static std::default_random_engine e{ static_cast<long unsigned int>(time(0)) };
@@ -83,7 +112,14 @@ float Coin::randomFloat(float min, float max)
 
 void Coin::updateCoin(Player& player, sf::RenderWindow& window, float dt, Platform* platform, std::vector<Platform*> platVec)
 {
-	changePosition(platform, player, platVec);
+	coinSprite.setPosition(player.getPosition().x + 385, player.getPosition().y - 480);
+	scoreText.setPosition(player.getPosition().x + 270, player.getPosition().y - 500);
+	scoreText.setString(std::to_string(score));
 	animateCoin(dt);
+
+
+	changePosition(platform, player, platVec);
 	window.draw(*this);
+	window.draw(coinSprite);
+	window.draw(scoreText);
 }

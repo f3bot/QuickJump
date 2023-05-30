@@ -31,6 +31,7 @@ MainMenu::MainMenu(float width, float height)
 	showCredits = false;
 	showOptions = false;
 
+
 	options = new Options();
 }
 void MainMenu::moveUp()
@@ -69,16 +70,20 @@ void MainMenu::processEvents(sf::Event& e, Player& player, Background& backgroun
 {
 	if (e.type == sf::Event::KeyPressed) {
 		if (e.key.code == sf::Keyboard::Up) {
-			moveUp();
 			if (showOptions) {
 				options->moveUp();
+			}
+			else {
+				moveUp();
 			}
 		}
 
 		if (e.key.code == sf::Keyboard::Down) {
-			moveDown();
 			if (showOptions) {
 				options->moveDown();
+			}
+			else {
+				moveDown();
 			}
 		}
 
@@ -92,7 +97,9 @@ void MainMenu::processEvents(sf::Event& e, Player& player, Background& backgroun
 					a->setSelected(options->returnMapSelected());
 					a->setTextures();
 				}
-				gameStarted = true;
+				if (!showOptions) {
+					gameStarted = true;
+				}
 			}
 
 			if (MainMenuSelected == 1) {
@@ -118,17 +125,16 @@ void MainMenu::processEvents(sf::Event& e, Player& player, Background& backgroun
 	}
 }
 
-
 void MainMenu::drawTo(sf::RenderWindow& window)
 {
-
 	if (showOptions) {
 		options->drawTo(window);
 	}
 	else if (showCredits) {
-
+		// Draw credits here
 	}
 	else {
+		// Draw main menu
 		for (int i = 0; i < max_num - 1; i++) {
 			window.draw(mainMenu[i]);
 		}
@@ -143,4 +149,11 @@ int MainMenu::MainMenuPressed()
 MainMenu::~MainMenu()
 {
 	std::cout << "Menu zniszczone\n";
+}
+
+void MainMenu::deleteListener()
+{
+	if (gameStarted) {
+		delete this;
+	}
 }

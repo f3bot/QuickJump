@@ -25,7 +25,7 @@ public:
 
 	~MainMenu();
 
-
+	void deleteListener();
 
 private:
 
@@ -37,6 +37,8 @@ private:
 
 	bool showOptions;
 	bool showCredits;
+	bool showMenu;
+
 
 	bool gameStarted;
 };
