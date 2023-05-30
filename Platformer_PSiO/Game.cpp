@@ -5,6 +5,7 @@
 #include "Bomb.h"
 #include "Coin.h"
 #include "MainMenu.h"
+#include "AnimatedGIF.h"
 #include "Spikes.h"
 #include <iostream>
 void Game::initVariables()
@@ -92,6 +93,11 @@ int Game::run()
     sf::View view = window.getDefaultView();
     Bomb bomb;
 
+    AnimatedGIF gif("assets/200w.gif");
+    sf::Vector2i size = gif.getSize();
+
+    sf::Sprite gifSprite;
+
     Background background_texture(window);
     Player player(window);
 
@@ -124,8 +130,10 @@ int Game::run()
         window.clear(sf::Color::Black);
 
         if (!mainMenu->getState()) {
+            gif.update(gifSprite);
             mainMenu->drawTo(window);
             mainMenu->deleteListener();
+            window.draw(gifSprite);
         }
         else {
             if (!player.getDead()) {
@@ -137,16 +145,17 @@ int Game::run()
                     a->drawTo(window);
                 }
 
+
                 handleWorldGeneration(player);
 
-                player.movementHorizontal();
-                player.movementJump();
-                background_texture.move(player.getHorizontal(), player.getVertical());
+                player.movementHorizontal(background_texture);
+                player.movementJump(background_texture);
+                //background_texture.move(player.getHorizontal(), player.getVertical());
 
                 view.setCenter(player.getPosition());
                 window.setView(view);
 
-                player.drawTo(window);
+                player.drawTo(window, background_texture);
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
                // spikes.update(window, player);

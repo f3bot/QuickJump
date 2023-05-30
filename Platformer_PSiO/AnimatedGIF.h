@@ -1,6 +1,8 @@
 #ifndef __ANIMATEDGIF_H__
 #define __ANIMATEDGIF_H__
 
+#include "stb_image.h"
+
 #include <SFML/Graphics.hpp>
 
 #include <vector>

@@ -64,13 +64,13 @@ public:
 
 	//Movement
 
-	void movementJump();
-	void movementHorizontal();
+	void movementJump(Background& background);
+	void movementHorizontal(Background& background);
 	void handleEvents(sf::Event& e);
 
 	//Drawing and Collision
 
-	void drawTo(sf::RenderWindow& window);
+	void drawTo(sf::RenderWindow& window, Background& background);
 	void borderCollision(sf::RenderWindow& window);
 
 	//Textures handling **Void - displaying animation, bool - loading everything
@@ -104,6 +104,6 @@ public:
 	bool getDead();
 	void setDead();
 	
-	void updateAll(float dt, sf::RenderWindow& window, sf::Event& e);
+	void updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Background& background);
 };
 

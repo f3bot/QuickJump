@@ -1,5 +1,6 @@
 ﻿#include "Player.h"
 #include "Options.h"
+#include "Background.h"
 
 Player::Player(sf::RenderWindow& window) : sf::Sprite()
 {
@@ -57,7 +58,7 @@ Player::Player(sf::RenderWindow& window) : sf::Sprite()
 	selectedTexture = 0;
 }
 
-void Player::movementJump()
+void Player::movementJump(Background& background)
 {
 	if (isGrounded) { //If isGrounded stop movement
 		verticalSpeed = 0;
@@ -69,6 +70,7 @@ void Player::movementJump()
 
 
 		move(0, verticalSpeed);
+		background.move(0, verticalSpeed);
 	}
 
 	if (verticalSpeed >= 5.f) {
@@ -76,18 +78,20 @@ void Player::movementJump()
 	}
 }
 
-void Player::movementHorizontal()
+void Player::movementHorizontal(Background& background)
 {
 	horizontalSpeed = 0;
 
 	if (left && canMove) {
-		setScale({ -2.5, 2.5 });
 		horizontalSpeed = -2.5f;
+		background.move(horizontalSpeed, 0);
 		position.x += horizontalSpeed;
+		setScale({ -2.5, 2.5 });
 		setOrigin(getLocalBounds().width, 0);
 	}
 	if (right && canMove) {
 		horizontalSpeed = 2.5f;
+		background.move(horizontalSpeed, 0);
 		position.x += horizontalSpeed;
 		setScale({ 2.5, 2.5 });
 		setOrigin(0, 0);
@@ -131,7 +135,7 @@ void Player::handleEvents(sf::Event& e)
 }
 
 
-void Player::drawTo(sf::RenderWindow& window)
+void Player::drawTo(sf::RenderWindow& window, Background& background)
 {
 	setPosition(position.x, position.y);
 	bounds.setPosition(getPosition());
@@ -197,10 +201,10 @@ void Player::setDead()
 	isDead = true;
 }
 
-void Player::updateAll(float dt, sf::RenderWindow& window, sf::Event& e)
+void Player::updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Background& background)
 {
-	movementHorizontal();
-	movementJump();
+	movementHorizontal(background);
+	movementJump(background);
 	window.draw(*this);
 	handleTextureChange(dt);
 }
