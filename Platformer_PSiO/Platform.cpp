@@ -17,14 +17,10 @@ Platform::Platform(float xPos, float yPos)
 	selected = 0;
 
 
-	std::cout << "Utworzono platforme\n";
-	std::cout << rect.getPosition().x << "  " << rect.getGlobalBounds().top << std::endl;
-
 }
 
 Platform::~Platform()
 {
-	std::cout << "Usunieto platforme\n";
 }
 
 bool Platform::handleTexture()

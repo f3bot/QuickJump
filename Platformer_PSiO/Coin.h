@@ -28,7 +28,13 @@ private:
 
 	bool pickedUp;
 
-	bool randomFloatFound;
+
+
+	bool isDeleted;
+
+
+	bool randomIntFound;
+	int r;
 
 	float randomX;
 
@@ -41,6 +47,8 @@ public:
 	void animateCoin(float dt);
 
 	int randomInt(int max);
+
+	bool checkDeleted(std::vector<Platform*> platVec, Platform* plat);
 
 	void updateText();
 

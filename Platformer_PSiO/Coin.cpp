@@ -36,23 +36,49 @@ Coin::Coin(Player& player, Platform* plat) : sf::Sprite()
 	animationTime = 0;
 	animationState = 0;
 	randomX = 0;
+	r = 0;
 
+	isDeleted = false;
 
-	randomFloatFound = false;
+	randomIntFound = false;
 }
+
+bool Coin::checkDeleted(std::vector<Platform*> platVec, Platform* plat)
+{
+	if (getPosition().y > platVec[0]->getPositionY()) {
+		return true;
+	}
+
+
+	return false;
+}
+
 
 void Coin::changePosition(Platform* platform, Player& player, std::vector<Platform*> platVec)
 {
+	if (!randomIntFound) {
+		r = 2 + randomInt(3);
+		randomIntFound = true;
+		checkDeleted(platVec, platVec[r]);
+	}
 
-	if (collideWithPlayer(player)) {
-		int r = 2 + randomInt(3);
-		platformIndex = 2 + r;
+	if (player.getGlobalBounds().intersects(getGlobalBounds()) || checkDeleted(platVec, platVec[r])) {
+		platformIndex = r;
 		position.x = platVec[platformIndex]->getPositionX() + randomFloat(30, 160);
 		position.y = platVec[platformIndex]->getPositionY() - 40;
+		randomIntFound = false;
+		checkDeleted(platVec, platVec[r]);
+
+		if (player.getGlobalBounds().intersects(getGlobalBounds())) {
+			score++;
+		}
 	}
+	
 
 	setPosition(position);
 }
+
+
 
 bool Coin::collideWithPlayer(Player& player)
 {

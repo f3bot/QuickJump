@@ -56,12 +56,15 @@ bool Game::deleteOutOfBoundsPlatforms(Player& player)
             delete* it;
             it = platformVec.erase(it);
             platformsDeleted = true;
+            std::cout << "Usunieta platforme " << it._Ptr << std::endl;
         }
         else
         {
             ++it;
         }
     }
+
+    
 
     return platformsDeleted;
 }
