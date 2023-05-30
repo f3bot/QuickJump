@@ -150,8 +150,8 @@ int Game::run()
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
                // spikes.update(window, player);
-                bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-                coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
+                //bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
+                //coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
 
 
                 clock.restart();
