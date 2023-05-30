@@ -38,6 +38,8 @@ private:
 
 	float randomX;
 
+
+
 	int platformIndex;
 public:
 	Coin(Player& player, Platform* plat);
@@ -51,6 +53,8 @@ public:
 	bool checkDeleted(std::vector<Platform*> platVec, Platform* plat);
 
 	void updateText();
+
+	bool getScore();
 
 
 	float randomFloat(float min, float max);

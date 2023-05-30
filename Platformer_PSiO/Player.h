@@ -47,6 +47,13 @@ private:
 	int animationStateIdle;
 	int animationStateRun;
 
+	//PowerUp dependant bools
+	bool isShielded;
+	bool isPowerJumped;
+
+	int jumpingCounter;
+	//Coin powerUp will be linked with coin
+
 public:
 	bool left;
 	bool right;
@@ -99,6 +106,16 @@ public:
 	void setTextures();
 
 	bool getJumping();
+
+	//Getters for powerup classes
+
+	bool getPowerJump();
+	bool getShielded();
+
+	void setPowerJumped(bool s);
+	void setShielded(bool s);
+
+	void setCounter();
 
 	//Score and Death handling
 	bool getDead();

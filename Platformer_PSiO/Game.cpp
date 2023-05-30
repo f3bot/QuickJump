@@ -6,7 +6,8 @@
 #include "Coin.h"
 #include "MainMenu.h"
 #include "AnimatedGIF.h"
-#include "Spikes.h"
+#include "PowerUpJump.h"
+#include "PowerUpShield.h"
 #include <iostream>
 void Game::initVariables()
 {
@@ -107,9 +108,11 @@ int Game::run()
     Coin* coin;
     coin = new Coin(player, platformVec[2]);
 
-    Spikes spikes;
 
     MainMenu* mainMenu;
+
+    PowerUpShield *p;
+    p = new PowerUpShield(player, window);
 
     mainMenu = new MainMenu(width, height);
 
@@ -147,6 +150,8 @@ int Game::run()
                 player.movementHorizontal(background_texture);
                 player.movementJump(background_texture);
                 //background_texture.move(player.getHorizontal(), player.getVertical());
+                 p->update(player, window);
+               
 
                 view.setCenter(player.getPosition());
                 window.setView(view);
@@ -154,7 +159,6 @@ int Game::run()
                 player.drawTo(window, background_texture);
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
-               // spikes.update(window, player);
                 bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
                 coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
 

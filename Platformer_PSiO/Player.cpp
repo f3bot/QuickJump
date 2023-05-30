@@ -44,6 +44,8 @@ Player::Player(sf::RenderWindow& window) : sf::Sprite()
 	right = false;
 	canMove = true;
 
+
+	jumpingCounter = 0;
 	//
 
 
@@ -56,6 +58,11 @@ Player::Player(sf::RenderWindow& window) : sf::Sprite()
 	bounds.setFillColor(sf::Color::Transparent);
 
 	selectedTexture = 0;
+
+	//Powerup dependant bools
+
+	isPowerJumped = false;
+	isShielded = false;
 }
 
 void Player::movementJump(Background& background)
@@ -105,7 +112,13 @@ void Player::handleEvents(sf::Event& e)
 {
 	if (e.type == sf::Event::KeyPressed) {
 		if (e.key.code == sf::Keyboard::Up && !isJumping && canMove) {
-			verticalSpeed = -10.f;
+			if (isPowerJumped && jumpingCounter > 0) {
+				verticalSpeed = -18.f;
+				jumpingCounter--;
+			}
+			else {
+				verticalSpeed = -10.f;
+			}
 			isJumping = true;
 			isGrounded = false;
 		}
@@ -189,6 +202,31 @@ bool Player::getJumping()
 	}
 
 	return false;
+}
+
+bool Player::getPowerJump()
+{
+	return isPowerJumped;
+}
+
+bool Player::getShielded()
+{
+	return isShielded;
+}
+
+void Player::setPowerJumped(bool s)
+{
+	isPowerJumped = s;
+}
+
+void Player::setShielded(bool s)
+{
+	isShielded = s;
+}
+
+void Player::setCounter()
+{
+	jumpingCounter = 3;
 }
 
 bool Player::getDead()

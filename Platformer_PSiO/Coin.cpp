@@ -127,6 +127,11 @@ int Coin::randomInt(int max)
 	return rand() % max;
 }
 
+bool Coin::getScore()
+{
+	return score;
+}
+
 
 
 float Coin::randomFloat(float min, float max)
