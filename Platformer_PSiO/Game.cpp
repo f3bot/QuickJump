@@ -93,9 +93,6 @@ int Game::run()
     sf::View view = window.getDefaultView();
     Bomb bomb;
 
-    AnimatedGIF gif("assets/200w.gif");
-    sf::Vector2i size = gif.getSize();
-
     sf::Sprite gifSprite;
 
     Background background_texture(window);
@@ -130,7 +127,6 @@ int Game::run()
         window.clear(sf::Color::Black);
 
         if (!mainMenu->getState()) {
-            gif.update(gifSprite);
             mainMenu->drawTo(window);
             mainMenu->deleteListener();
             window.draw(gifSprite);
@@ -159,8 +155,8 @@ int Game::run()
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
                // spikes.update(window, player);
-                //bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-                //coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
+                bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
+                coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
 
 
                 clock.restart();

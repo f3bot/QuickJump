@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.h"
 #include "Options.h"
+#include "AnimatedGIF.h"
 #include "Platform.h"
 #pragma once
 
@@ -28,6 +29,9 @@ public:
 	void deleteListener();
 
 private:
+	AnimatedGIF* gif;
+
+	sf::Sprite gifSprite;
 
 	Options *options;
 
