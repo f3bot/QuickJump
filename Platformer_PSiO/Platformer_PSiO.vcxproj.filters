@@ -57,6 +57,9 @@
     <ClCompile Include="PowerUpShield.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="playerBarrier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PowerUpShield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="playerBarrier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

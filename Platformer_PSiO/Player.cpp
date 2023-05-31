@@ -43,7 +43,7 @@ Player::Player(sf::RenderWindow& window) : sf::Sprite()
 	left = false;
 	right = false;
 	canMove = true;
-
+	barrierCreated = false;
 
 	jumpingCounter = 0;
 	//
@@ -87,7 +87,6 @@ void Player::movementJump(Background& background)
 
 void Player::movementHorizontal(Background& background)
 {
-	horizontalSpeed = 0;
 
 	if (left && canMove) {
 		horizontalSpeed = -2.5f;
@@ -247,6 +246,25 @@ void Player::updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Backgro
 	handleTextureChange(dt);
 }
 
+void Player::updateShield(sf::RenderWindow& window)
+{
+
+	if (!barrierCreated && isShielded) {
+		barrier = new playerBarrier(*this);
+		barrierCreated = true;
+	}
+
+	if (isShielded) {
+		barrier->drawTo(*this, window);
+	}
+	else {
+		if (barrier != nullptr) {
+			delete barrier;
+			barrier = nullptr;
+			barrierCreated = false;
+		}
+	}
+}
 bool Player::handleBreathing()
 {
 

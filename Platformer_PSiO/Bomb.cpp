@@ -76,20 +76,27 @@ void Bomb::animateExplosion(float dt, Player& player)
 
 void Bomb::collisionWithPlayer(Player& player, float dt)
 {
-    if (getGlobalBounds().intersects(player.getGlobalBounds())) {
-        if (!player.getShielded())
-        {
+    if (player.getGlobalBounds().intersects(getGlobalBounds())) {
+        if (player.getShielded()) {
+            hasCollided = true;
+        }
+        else {
+            std::cout << "Eksplozja\n";
             setScale({ 1.5,1.5 });
             animateExplosion(dt, player);
             player.isGrounded = true;
+            player.canMove = false;
             canMove = false;
         }
-        else if (player.getShielded()) {
-            animationTimeTest += dt;
-            if (animationTimeTest > 500000) {
-                player.setShielded(false);
-            }
-           
+    }
+
+    if (hasCollided) {
+        animationTimeTest += dt;
+        std::cout << "added\n" << animationTimeTest << std::endl;
+        if (animationTimeTest > 1000000) {
+            std::cout << "Shielded\n";
+            player.setShielded(false);
+            hasCollided = false;
         }
     }
 }

@@ -156,6 +156,8 @@ int Game::run()
                 view.setCenter(player.getPosition());
                 window.setView(view);
 
+
+                player.updateShield(window);
                 player.drawTo(window, background_texture);
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
