@@ -28,7 +28,14 @@ public:
 
 	void deleteListener();
 
+	std::string getUsername(sf::RenderWindow& window);
+
+	std::string returnUser();
+
 private:
+	std::string username;
+	sf::Text currentUser;
+
 	AnimatedGIF* gif;
 
 	sf::Sprite gifSprite;
@@ -39,10 +46,13 @@ private:
 	sf::Font font;
 	sf::Text mainMenu[3];
 
+	sf::Text inputUsernameText;
+
 	bool showOptions;
 	bool showCredits;
 	bool showMenu;
 
+	bool userEntered;
 
 	bool gameStarted;
 };

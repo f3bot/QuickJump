@@ -153,6 +153,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HallOfFame.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Platform.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="playerBarrier.cpp" />
     <ClCompile Include="PowerUp.cpp" />
+    <ClCompile Include="powerUpCoins.cpp" />
     <ClCompile Include="PowerUpJump.cpp" />
     <ClCompile Include="PowerUpShield.cpp" />
   </ItemGroup>
@@ -170,12 +172,14 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HallOfFame.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="playerBarrier.h" />
     <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="powerUpCoins.h" />
     <ClInclude Include="PowerUpJump.h" />
     <ClInclude Include="PowerUpShield.h" />
     <ClInclude Include="stb\stb_image.h" />

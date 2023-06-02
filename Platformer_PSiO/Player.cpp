@@ -152,7 +152,6 @@ void Player::drawTo(sf::RenderWindow& window, Background& background)
 	setPosition(position.x, position.y);
 	bounds.setPosition(getPosition());
 	window.draw(*this);
-	window.draw(bounds);
 	isGrounded = false;
 }
 
@@ -265,6 +264,7 @@ void Player::updateShield(sf::RenderWindow& window)
 		}
 	}
 }
+
 bool Player::handleBreathing()
 {
 

@@ -25,6 +25,9 @@ MainMenu::MainMenu(float width, float height)
 		mainMenu[i].setPosition(position[i]);
 	}
 
+	currentUser.setFont(font);
+	inputUsernameText.setFont(font);
+
 	MainMenuSelected = 0;
 	gameStarted = false;
 
@@ -34,6 +37,8 @@ MainMenu::MainMenu(float width, float height)
 
 	options = new Options();
 	//gif = new AnimatedGIF("assets/gggif.gif");
+
+	userEntered = false;
 
 }
 void MainMenu::moveUp()
@@ -161,4 +166,48 @@ void MainMenu::deleteListener()
 	if (gameStarted) {
 		delete this;
 	}
+}
+
+std::string MainMenu::getUsername(sf::RenderWindow& window)
+{
+	inputUsernameText.setString("Wpisz username");
+	inputUsernameText.setPosition(150, 100);
+	sf::Event event;
+	while (!userEntered)
+	{
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::TextEntered)
+			{
+				if (event.text.unicode == '\r')
+				{
+					userEntered = true;
+				}
+				else if (event.text.unicode == '\b')
+				{
+					username.pop_back();
+				}
+				else if (event.text.unicode < 128)
+				{
+					username += static_cast<char>(event.text.unicode);
+				}
+			}
+		}
+
+		currentUser.setString(username);
+		currentUser.setPosition(300, 200);
+
+		window.clear();
+		window.draw(inputUsernameText);
+		window.draw(currentUser);
+		window.display();
+
+		std::cout << username << "A \n" << std::endl;
+	}
+	return username;
+}
+
+std::string MainMenu::returnUser()
+{
+	return username;
 }

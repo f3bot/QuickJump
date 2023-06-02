@@ -11,7 +11,7 @@ playerBarrier::playerBarrier(Player& player)
 
 	setTexture(t);
 	setPosition(player.getGlobalBounds().top, player.getGlobalBounds().left);
-	setScale({ 0.25,0.25 });
+	setScale({ 0.15,0.15 });
 
 	bounds.setSize(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height));
 	bounds.setOutlineThickness(2.f);
@@ -21,14 +21,12 @@ playerBarrier::playerBarrier(Player& player)
 
 void playerBarrier::updatePosition(Player& player)
 {
-	bounds.setPosition(getPosition());
-	setPosition(player.getPosition());
+	setPosition(player.getPosition().x - 20, player.getPosition().y - 20);
 }
 
 void playerBarrier::drawTo(Player& player, sf::RenderWindow& window)
 {
 	updatePosition(player);
-	window.draw(bounds);
 	window.draw(*this);
 }
 

@@ -38,6 +38,8 @@ Coin::Coin(Player& player, Platform* plat) : sf::Sprite()
 	randomX = 0;
 	r = 0;
 
+	coinsSpawned = false;
+
 	isDeleted = false;
 
 	randomIntFound = false;
@@ -127,12 +129,22 @@ int Coin::randomInt(int max)
 	return rand() % max;
 }
 
-bool Coin::getScore()
+
+
+void Coin::spawnMultipleCoins(Player& player, Platform* plat)
 {
-	return score;
+	coinsPower = {
+	new Coin(player, plat),
+	new Coin(player,plat),
+	new Coin(player,plat),
+	new Coin(player, plat),
+	new Coin(player,plat)
+	};
 }
 
-
+void Coin::handleCoinsPowerUp(Player& player, Platform* plat)
+{
+}
 
 float Coin::randomFloat(float min, float max)
 {
@@ -148,6 +160,10 @@ void Coin::updateCoin(Player& player, sf::RenderWindow& window, float dt, Platfo
 	scoreText.setString(std::to_string(score));
 	animateCoin(dt);
 
+	for (auto a : coinsPower) {
+		window.draw(*a);
+
+	}
 
 	changePosition(platform, player, platVec);
 	window.draw(*this);

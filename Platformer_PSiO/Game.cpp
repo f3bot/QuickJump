@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include "Background.h"
 #include "Player.h"
 #include "Platform.h"
@@ -8,6 +8,7 @@
 #include "AnimatedGIF.h"
 #include "PowerUpJump.h"
 #include "PowerUpShield.h"
+#include "HallOfFame.h"
 #include <iostream>
 void Game::initVariables()
 {
@@ -116,6 +117,8 @@ int Game::run()
 
     mainMenu = new MainMenu(width, height);
 
+    HallOfFame h;
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -125,9 +128,12 @@ int Game::run()
                 window.close();
             player.handleEvents(event);
             mainMenu->processEvents(event, player, background_texture, platformVec);
+            h.endEvent(event, window);
         }
 
         window.clear(sf::Color::Black);
+
+        mainMenu->getUsername(window);
 
         if (!mainMenu->getState()) {
             mainMenu->drawTo(window);
@@ -150,15 +156,14 @@ int Game::run()
                 player.movementHorizontal(background_texture);
                 player.movementJump(background_texture);
                 //background_texture.move(player.getHorizontal(), player.getVertical());
-                 p->update(player, window);
-               
+                p->update(player, window);
+
 
                 view.setCenter(player.getPosition());
                 window.setView(view);
-
-
                 player.updateShield(window);
                 player.drawTo(window, background_texture);
+
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
                 bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
@@ -167,6 +172,13 @@ int Game::run()
 
                 clock.restart();
 
+
+                saveToCsv("output.txt", coin, mainMenu, player);
+            }
+            else {
+                h.loadFromCsv("output.txt");
+                h.calculateAndSetPosition(player);
+                h.drawTo(window);
             }
         }
 
@@ -188,4 +200,17 @@ Game::Game()
 {
 	window.setSize(sf::Vector2u(width, height));
 	window.setTitle("Platformer");
+}
+
+void Game::saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& player)
+{
+    if (player.getDead()) {
+        std::fstream file;
+        file.open(filename, std::ios::app);
+        file << menu->returnUser() << "\n";
+        file << coin->getScore();
+        file << "\n";
+        file.close();
+        std::cout << "Funkcja wywołana \n";
+    }
 }

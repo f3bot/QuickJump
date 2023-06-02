@@ -28,6 +28,8 @@ private:
 
 	bool pickedUp;
 
+	std::vector<Coin*> coinsPower;
+	bool coinsSpawned;
 
 
 	bool isDeleted;
@@ -54,10 +56,15 @@ public:
 
 	void updateText();
 
-	bool getScore();
-
+	int getScore() {
+		return score;
+	}
 
 	float randomFloat(float min, float max);
+
+	void spawnMultipleCoins(Player& player, Platform* plat);
+
+	void handleCoinsPowerUp(Player& player, Platform* plat);
 
 	void updateCoin(Player& player, sf::RenderWindow& window,float dt, Platform *platform, std::vector<Platform*> platVec);
 };

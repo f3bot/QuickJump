@@ -128,5 +128,6 @@ public:
 	void updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Background& background);
 
 	void updateShield(sf::RenderWindow& window);
+
 };
 
