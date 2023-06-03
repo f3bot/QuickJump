@@ -155,11 +155,14 @@ int Game::run()
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
                // spikes.update(window, player);
-                bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-                coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
+               bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
+               coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
 
 
                 clock.restart();
+
+                
+                //Exit menu, Play again, power up(shield bomba, 5 monet, wyzszy skok), hall of fame(tierlist)
 
             }
         }

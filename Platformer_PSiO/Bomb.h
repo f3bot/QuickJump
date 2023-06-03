@@ -21,7 +21,7 @@ private:
 
 	std::vector<sf::IntRect> explosionVector;
 
-	const float gravitationalForce = 3.f;
+	const float gravitationalForce = 2.f;
 public:
 	Bomb();
 	~Bomb();
