@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include "Background.h"
 #include "Player.h"
 #include "Platform.h"
@@ -6,7 +6,9 @@
 #include "Coin.h"
 #include "MainMenu.h"
 #include "AnimatedGIF.h"
-#include "Spikes.h"
+#include "PowerUpJump.h"
+#include "PowerUpShield.h"
+#include "HallOfFame.h"
 #include <iostream>
 void Game::initVariables()
 {
@@ -107,11 +109,15 @@ int Game::run()
     Coin* coin;
     coin = new Coin(player, platformVec[2]);
 
-    Spikes spikes;
 
     MainMenu* mainMenu;
 
+    PowerUpShield *p;
+    p = new PowerUpShield(player, window);
+
     mainMenu = new MainMenu(width, height);
+
+    HallOfFame h;
 
     while (window.isOpen())
     {
@@ -122,9 +128,12 @@ int Game::run()
                 window.close();
             player.handleEvents(event);
             mainMenu->processEvents(event, player, background_texture, platformVec);
+            h.endEvent(event, window);
         }
 
         window.clear(sf::Color::Black);
+
+        mainMenu->getUsername(window);
 
         if (!mainMenu->getState()) {
             mainMenu->drawTo(window);
@@ -147,23 +156,27 @@ int Game::run()
                 player.movementHorizontal(background_texture);
                 player.movementJump(background_texture);
                 //background_texture.move(player.getHorizontal(), player.getVertical());
+                p->update(player, window);
+
 
                 view.setCenter(player.getPosition());
                 window.setView(view);
-
+                player.updateShield(window);
                 player.drawTo(window, background_texture);
+
                 player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
 
-               // spikes.update(window, player);
-               bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
-               coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
+                bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
+                coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
 
 
                 clock.restart();
 
-                
-                //Exit menu, Play again, power up(shield bomba, 5 monet, wyzszy skok), hall of fame(tierlist)
-
+            }
+            else {
+                h.loadFromCsv("output.txt");
+                h.calculateAndSetPosition(player);
+                h.drawTo(window);
             }
         }
 
@@ -185,4 +198,17 @@ Game::Game()
 {
 	window.setSize(sf::Vector2u(width, height));
 	window.setTitle("Platformer");
+}
+
+void Game::saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& player)
+{
+    if (player.getDead()) {
+        std::fstream file;
+        file.open(filename, std::ios::app);
+        file << menu->returnUser() << "\n";
+        file << coin->getScore();
+        file << "\n";
+        file.close();
+        std::cout << "Funkcja wywołana \n";
+    }
 }

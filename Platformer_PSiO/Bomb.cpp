@@ -25,8 +25,9 @@ Bomb::Bomb() : sf::Sprite()
     animationStateExplosion = 0;
     animationTimeExplosion = 0;
 
-
+    hasCollided = false;
     hasSetTextureRect = false;
+    animationTimeTest = 0;
 }
 
 Bomb::~Bomb()
@@ -75,12 +76,28 @@ void Bomb::animateExplosion(float dt, Player& player)
 
 void Bomb::collisionWithPlayer(Player& player, float dt)
 {
-    if (getGlobalBounds().intersects(player.getGlobalBounds())) {
-        setScale({ 1.5,1.5 });
-        canMove = false;
-        animateExplosion(dt, player);
-        player.isGrounded = true;
-        player.canMove = false;
+    if (player.getGlobalBounds().intersects(getGlobalBounds())) {
+        if (player.getShielded()) {
+            hasCollided = true;
+        }
+        else {
+            std::cout << "Eksplozja\n";
+            setScale({ 1.5,1.5 });
+            animateExplosion(dt, player);
+            player.isGrounded = true;
+            player.canMove = false;
+            canMove = false;
+        }
+    }
+
+    if (hasCollided) {
+        animationTimeTest += dt;
+        std::cout << "added\n" << animationTimeTest << std::endl;
+        if (animationTimeTest > 1000000) {
+            std::cout << "Shielded\n";
+            player.setShielded(false);
+            hasCollided = false;
+        }
     }
 }
 

@@ -43,7 +43,9 @@ Player::Player(sf::RenderWindow& window) : sf::Sprite()
 	left = false;
 	right = false;
 	canMove = true;
+	barrierCreated = false;
 
+	jumpingCounter = 0;
 	//
 
 
@@ -56,6 +58,11 @@ Player::Player(sf::RenderWindow& window) : sf::Sprite()
 	bounds.setFillColor(sf::Color::Transparent);
 
 	selectedTexture = 0;
+
+	//Powerup dependant bools
+
+	isPowerJumped = false;
+	isShielded = false;
 }
 
 void Player::movementJump(Background& background)
@@ -80,7 +87,6 @@ void Player::movementJump(Background& background)
 
 void Player::movementHorizontal(Background& background)
 {
-	horizontalSpeed = 0;
 
 	if (left && canMove) {
 		horizontalSpeed = -2.5f;
@@ -105,7 +111,13 @@ void Player::handleEvents(sf::Event& e)
 {
 	if (e.type == sf::Event::KeyPressed) {
 		if (e.key.code == sf::Keyboard::Up && !isJumping && canMove) {
-			verticalSpeed = -10.f;
+			if (isPowerJumped && jumpingCounter > 0) {
+				verticalSpeed = -18.f;
+				jumpingCounter--;
+			}
+			else {
+				verticalSpeed = -10.f;
+			}
 			isJumping = true;
 			isGrounded = false;
 		}
@@ -140,7 +152,6 @@ void Player::drawTo(sf::RenderWindow& window, Background& background)
 	setPosition(position.x, position.y);
 	bounds.setPosition(getPosition());
 	window.draw(*this);
-	window.draw(bounds);
 	isGrounded = false;
 }
 
@@ -191,6 +202,31 @@ bool Player::getJumping()
 	return false;
 }
 
+bool Player::getPowerJump()
+{
+	return isPowerJumped;
+}
+
+bool Player::getShielded()
+{
+	return isShielded;
+}
+
+void Player::setPowerJumped(bool s)
+{
+	isPowerJumped = s;
+}
+
+void Player::setShielded(bool s)
+{
+	isShielded = s;
+}
+
+void Player::setCounter()
+{
+	jumpingCounter = 3;
+}
+
 bool Player::getDead()
 {
 	return isDead;
@@ -207,6 +243,26 @@ void Player::updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Backgro
 	movementJump(background);
 	window.draw(*this);
 	handleTextureChange(dt);
+}
+
+void Player::updateShield(sf::RenderWindow& window)
+{
+
+	if (!barrierCreated && isShielded) {
+		barrier = new playerBarrier(*this);
+		barrierCreated = true;
+	}
+
+	if (isShielded) {
+		barrier->drawTo(*this, window);
+	}
+	else {
+		if (barrier != nullptr) {
+			delete barrier;
+			barrier = nullptr;
+			barrierCreated = false;
+		}
+	}
 }
 
 bool Player::handleBreathing()

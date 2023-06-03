@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "playerBarrier.h"
 #include "Background.h"
 #include <iostream>
 #include <windows.h>
@@ -38,7 +39,8 @@ private:
 	sf::Texture runningTexture;
 	std::vector<sf::IntRect> RunningTextureVector;
 
-	
+
+	playerBarrier* barrier;
 
 
 
@@ -46,6 +48,15 @@ private:
 	float animationTimeRun;
 	int animationStateIdle;
 	int animationStateRun;
+
+	//PowerUp dependant bools
+	bool isShielded;
+	bool isPowerJumped;
+
+	bool barrierCreated;
+
+	int jumpingCounter;
+	//Coin powerUp will be linked with coin
 
 public:
 	bool left;
@@ -100,10 +111,23 @@ public:
 
 	bool getJumping();
 
+	//Getters for powerup classes
+
+	bool getPowerJump();
+	bool getShielded();
+
+	void setPowerJumped(bool s);
+	void setShielded(bool s);
+
+	void setCounter();
+
 	//Score and Death handling
 	bool getDead();
 	void setDead();
 	
 	void updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Background& background);
+
+	void updateShield(sf::RenderWindow& window);
+
 };
 

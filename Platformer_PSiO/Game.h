@@ -3,10 +3,13 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include <fstream>
 #include <SFML/Graphics.hpp>
 #include "Background.h"
 #include "Platform.h"
 #include "Player.h"
+#include "MainMenu.h"
+#include "Coin.h"
 class Game
 
 {
@@ -29,5 +32,7 @@ public:
 
 	float randomFloat(float min, float max);
 	Game();
+
+	void saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& player);
 };
 
