@@ -28,7 +28,6 @@ private:
 
 	bool pickedUp;
 
-	std::vector<Coin*> coinsPower;
 	bool coinsSpawned;
 
 
@@ -45,6 +44,7 @@ private:
 	int platformIndex;
 public:
 	Coin(Player& player, Platform* plat);
+	Coin(Platform* plat);
 	void changePosition(Platform *platform, Player& player, std::vector<Platform*> platVec);
 	bool collideWithPlayer(Player& player);
 	bool handleTexture();

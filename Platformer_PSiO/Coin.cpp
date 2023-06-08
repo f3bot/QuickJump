@@ -45,6 +45,13 @@ Coin::Coin(Player& player, Platform* plat) : sf::Sprite()
 	randomIntFound = false;
 }
 
+Coin::Coin(Platform* plat)
+{
+	sf::FloatRect bounds = plat->getGlobalBounds();
+
+
+}
+
 bool Coin::checkDeleted(std::vector<Platform*> platVec, Platform* plat)
 {
 	if (getPosition().y > platVec[0]->getPositionY()) {
@@ -131,17 +138,6 @@ int Coin::randomInt(int max)
 
 
 
-void Coin::spawnMultipleCoins(Player& player, Platform* plat)
-{
-	coinsPower = {
-	new Coin(player, plat),
-	new Coin(player,plat),
-	new Coin(player,plat),
-	new Coin(player, plat),
-	new Coin(player,plat)
-	};
-}
-
 void Coin::handleCoinsPowerUp(Player& player, Platform* plat)
 {
 }
@@ -159,11 +155,6 @@ void Coin::updateCoin(Player& player, sf::RenderWindow& window, float dt, Platfo
 	scoreText.setPosition(player.getPosition().x + 270, player.getPosition().y - 500);
 	scoreText.setString(std::to_string(score));
 	animateCoin(dt);
-
-	for (auto a : coinsPower) {
-		window.draw(*a);
-
-	}
 
 	changePosition(platform, player, platVec);
 	window.draw(*this);

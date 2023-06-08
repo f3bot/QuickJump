@@ -26,6 +26,7 @@ MainMenu::MainMenu(float width, float height)
 	}
 
 	currentUser.setFont(font);
+	currentUser.setPosition(150.f, 100.f);
 	inputUsernameText.setFont(font);
 
 	MainMenuSelected = 0;

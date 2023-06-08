@@ -1,5 +1,6 @@
 #pragma once
 #include "PowerUp.h"
+#include "Coin.h"
 #include <SFML/Graphics.hpp>
 
 class powerUpCoins : public PowerUp, public sf::Sprite
@@ -7,6 +8,8 @@ class powerUpCoins : public PowerUp, public sf::Sprite
 private:
 	sf::Vector2f position;
 	sf::Texture t;
+	std::vector<Coin*> coins;
+
 
 	bool isDeleted;
 public:
@@ -21,9 +24,11 @@ public:
 
 	void setAttribute(Player& player) override;
 
-	void spawnCoins();
+	void spawnCoins(Player& player, Platform* plat);
 
 	void drawTo(sf::RenderWindow& window);
+
+	sf::FloatRect platBounds(Platform* plat);
 
 	void update(Player& player, sf::RenderWindow& window);
 };
