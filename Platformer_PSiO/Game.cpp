@@ -172,8 +172,6 @@ int Game::run()
 
                 clock.restart();
 
-
-                saveToCsv("output.txt", coin, mainMenu, player);
             }
             else {
                 h.loadFromCsv("output.txt");
