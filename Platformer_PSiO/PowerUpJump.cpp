@@ -23,6 +23,8 @@ void PowerUpJump::setAttribute(Player& player)
 		player.setCounter();
 		std::cout << "PowerJump set\n";
 		isDeleted = true;
+
+		delete this;
 	}
 }
 

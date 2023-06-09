@@ -15,6 +15,8 @@ powerUpCoins::powerUpCoins(Player& player, sf::RenderWindow& window)
 	isDeleted = false;
 
 	coins.clear();
+
+
 }
 
 void powerUpCoins::setAttribute(Player& player)

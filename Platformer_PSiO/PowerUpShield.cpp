@@ -26,7 +26,7 @@ void PowerUpShield::setAttribute(Player& player)
 
 void PowerUpShield::update(Player& player, sf::RenderWindow& window)
 {
-	if (!isDeleted) {
+	if (!isDeleted && this != nullptr) {
 		setAttribute(player);
 		window.draw(*this);
 	}

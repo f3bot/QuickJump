@@ -30,7 +30,6 @@ void Game::handleWorldGeneration(Player& player)
 
     if (deleteOutOfBoundsPlatforms(player)) {
         platformVec.push_back(new Platform(randomCoordinates().x, randomCoordinates().y));
-        std::cout << "New platform pushed to vector\n";
     }
 
 
@@ -59,7 +58,6 @@ bool Game::deleteOutOfBoundsPlatforms(Player& player)
             delete* it;
             it = platformVec.erase(it);
             platformsDeleted = true;
-            std::cout << "Usunieta platforme " << it._Ptr << std::endl;
         }
         else
         {
@@ -89,6 +87,8 @@ void Game::initializeGameWithPlatforms()
 
 int Game::run()
 {
+
+
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     sf::Clock clock;
@@ -111,9 +111,6 @@ int Game::run()
 
 
     MainMenu* mainMenu;
-
-    PowerUpShield *p;
-    p = new PowerUpShield(player, window);
 
     mainMenu = new MainMenu(width, height);
 
@@ -150,13 +147,24 @@ int Game::run()
                     a->drawTo(window);
                 }
 
+                if (coin->getScore() % 10 == 0 && !objectCreated) {
+                    
+                    p2 = new PowerUpJump(player, window);
+
+                    std::cout << player.getShielded() << std::endl;
+
+                    objectCreated = true;
+                }
+
 
                 handleWorldGeneration(player);
 
+                playerPowerCollision(player, p1, p2);
+                updatePowers(player,window);
+
                 player.movementHorizontal(background_texture);
                 player.movementJump(background_texture);
-                //background_texture.move(player.getHorizontal(), player.getVertical());
-                p->update(player, window);
+        
 
 
                 view.setCenter(player.getPosition());
@@ -198,6 +206,11 @@ Game::Game()
 {
 	window.setSize(sf::Vector2u(width, height));
 	window.setTitle("Platformer");
+
+    p1 = nullptr;
+    p2 = nullptr;
+
+    objectCreated = false;
 }
 
 void Game::saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& player)
@@ -212,3 +225,39 @@ void Game::saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& p
         std::cout << "Funkcja wywołana \n";
     }
 }
+
+bool Game::playerPowerCollision(Player& player, PowerUpShield* shield, PowerUpJump* jump)
+{
+    if (p1 != nullptr && player.getGlobalBounds().intersects(p1->getGlobalBounds())) {
+        player.setShielded(true);
+        std::cout << player.getShielded() << std::endl;
+        delete p1;
+        p1 = nullptr;
+        objectCreated = false;
+    }
+
+    if (p2 != nullptr && player.getGlobalBounds().intersects(p2->getGlobalBounds())) {
+        std::cout << "Chuj\n";
+        player.setPowerJumped(true);
+        player.setCounter();
+        std::cout << player.getPowerJump() << std::endl;
+        delete p2;
+        p2 = nullptr;
+        objectCreated = false;
+    }
+
+    return false;
+}
+
+
+void Game::updatePowers(Player& player, sf::RenderWindow& window)
+{
+    if (p1 != nullptr) {
+        p1->update(player, window);
+    }
+
+    if (p2 != nullptr) {
+        p2->update(player, window);
+    }
+}
+

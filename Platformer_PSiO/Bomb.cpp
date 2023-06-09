@@ -135,6 +135,8 @@ float Bomb::randomFloat(float min, float max)
 
 void Bomb::update(Player& player, sf::RenderWindow& window, float dt)
 {
+    std::cout << player.getShielded() << std::endl;
+
     fallDown();
     resetPosition(window, player);
     setPosition(position);

@@ -144,6 +144,10 @@ void Player::handleEvents(sf::Event& e)
 		left = false;
 		right = false;
 	}
+
+	if (jumpingCounter < 0) {
+		isPowerJumped = false;
+	}
 }
 
 

@@ -6,6 +6,9 @@ sf::Vector2f PowerUp::generatePosition(Player& player, sf::RenderWindow& window)
 	sf::Vector2f pos;
 	pos.x = rand() % window.getSize().x;
 	pos.y = rand() % window.getSize().y - player.getPosition().y;
+
+	pos.y *= -1;
+
 	return pos;
 }
 

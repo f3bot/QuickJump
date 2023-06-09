@@ -9,6 +9,9 @@
 #include "Platform.h"
 #include "Player.h"
 #include "MainMenu.h"
+#include "PowerUpShield.h"
+#include "PowerUpJump.h"
+#include "powerUpCoins.h"
 #include "Coin.h"
 class Game
 
@@ -18,6 +21,11 @@ private:
 	const unsigned int width = 600;
 	const unsigned int height = 800;
 	std::vector<Platform*> platformVec;
+	PowerUpShield* p1;
+	PowerUpJump* p2;
+
+	bool objectCreated;
+
 public:
 	void initVariables();
 	void initWindowSettings();
@@ -34,5 +42,12 @@ public:
 	Game();
 
 	void saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& player);
+
+	bool playerPowerCollision(Player& player, PowerUpShield* shield, PowerUpJump* jump);
+
+	void determineDelete(Player& player);
+
+
+	void updatePowers(Player& player, sf::RenderWindow& window);
 };
 

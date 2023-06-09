@@ -26,5 +26,13 @@ public:
 	void drawTo(sf::RenderWindow& window);
 
 	void update(Player& player, sf::RenderWindow& window);
+
+	~PowerUpShield() {
+		std::cout << "Destroyed\n";
+		std::cout << "Destroyed\n";
+		std::cout << "Destroyed\n";
+	}
+
+	bool getDeleted() { return isDeleted; }
 };
 
