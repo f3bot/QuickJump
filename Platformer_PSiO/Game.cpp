@@ -10,35 +10,28 @@
 #include "PowerUpShield.h"
 #include "HallOfFame.h"
 #include <iostream>
+
 void Game::initVariables()
 {
-
 }
-
 
 void Game::movePlatforms(Player& player)
 {
-    for (auto &a : platformVec) {
-        a->moveUp(0.2 * player.getVertical()); // Platforms will move in the opposite direction as the player, this will give the 
-    }                                           //Illusion that the world is smoothly generated, rather than platforms just appearing out of nowhere
-
-}//NOT USED RN
+    for (auto& platform : platformVec) {
+        platform->moveUp(0.2 * player.getVertical());
+    }
+}
 
 void Game::handleWorldGeneration(Player& player)
 {
-    //First portion of this 
-
     if (deleteOutOfBoundsPlatforms(player)) {
         platformVec.push_back(new Platform(randomCoordinates().x, randomCoordinates().y));
     }
-
-
 }
 
 sf::Vector2f Game::randomCoordinates()
 {
     sf::Vector2f position;
-
     int index = platformVec.size() - 1;
 
     position.x = randomFloat(50, 550);
@@ -51,44 +44,35 @@ bool Game::deleteOutOfBoundsPlatforms(Player& player)
 {
     bool platformsDeleted = false;
 
-    for (auto it = platformVec.begin(); it != platformVec.end(); )
-    {
-        if ((*it)->getPositionY() > player.getPosition().y + height - 100 || (*it)->getAnimationState() == 8)
-        {
+    for (auto it = platformVec.begin(); it != platformVec.end();) {
+        if ((*it)->getPositionY() > player.getPosition().y + height - 100 || (*it)->getAnimationState() == 8) {
             delete* it;
             it = platformVec.erase(it);
             platformsDeleted = true;
         }
-        else
-        {
+        else {
             ++it;
         }
     }
 
-    
-
     return platformsDeleted;
 }
-
 
 void Game::initializeGameWithPlatforms()
 {
     platformVec = {
-        {new Platform(200.f, 350.f)},
-        {new Platform(200.f, 150.f)},
-        {new Platform(200.f, -50.f)},
-        {new Platform(200.f, -250.f)},
-        {new Platform(200.f, -450.f)},
-        {new Platform(200.f, -650.f)},
-        {new Platform(200.f, -850.f)},
-        
+        new Platform(200.f, 350.f),
+        new Platform(200.f, 150.f),
+        new Platform(200.f, -50.f),
+        new Platform(200.f, -250.f),
+        new Platform(200.f, -450.f),
+        new Platform(200.f, -650.f),
+        new Platform(200.f, -850.f)
     };
 }
 
 int Game::run()
 {
-
-
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     sf::Clock clock;
@@ -106,21 +90,16 @@ int Game::run()
 
     window.setFramerateLimit(144);
 
-    Coin* coin;
-    coin = new Coin(player, platformVec[2]);
-
+    Coin* coin = new Coin(player, platformVec[2]);
 
     MainMenu* mainMenu;
-
     mainMenu = new MainMenu(width, height);
 
     HallOfFame h;
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
             player.handleEvents(event);
@@ -141,31 +120,29 @@ int Game::run()
             if (!player.getDead()) {
                 background_texture.drawBackground(window);
 
-                for (auto& a : platformVec) {
-                    a->playerBlockCollision(player);
-                    a->setDestruction(clock.getElapsedTime().asMicroseconds());
-                    a->drawTo(window);
+                for (auto& platform : platformVec) {
+                    platform->playerBlockCollision(player);
+                    platform->setDestruction(clock.getElapsedTime().asMicroseconds());
+                    platform->drawTo(window);
                 }
 
                 if (coin->getScore() % 10 == 0 && !objectCreated) {
-                    
-                    p2 = new PowerUpJump(player, window);
-
-                    std::cout << player.getShielded() << std::endl;
-
+                    if (randomInt(1, 2) == 1) {
+                        p1 = new PowerUpShield(player, window);
+                    }
+                    else {
+                        p2 = new PowerUpJump(player, window);
+                    }
                     objectCreated = true;
                 }
-
 
                 handleWorldGeneration(player);
 
                 playerPowerCollision(player, p1, p2);
-                updatePowers(player,window);
+                updatePowers(player, window);
 
                 player.movementHorizontal(background_texture);
                 player.movementJump(background_texture);
-        
-
 
                 view.setCenter(player.getPosition());
                 window.setView(view);
@@ -177,17 +154,15 @@ int Game::run()
                 bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
                 coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
 
-
                 clock.restart();
-
             }
             else {
+                saveToCsv("output.txt", coin, mainMenu, player);
                 h.loadFromCsv("output.txt");
                 h.calculateAndSetPosition(player);
                 h.drawTo(window);
             }
         }
-
 
         window.display();
     }
@@ -204,12 +179,11 @@ float Game::randomFloat(float min, float max)
 
 Game::Game()
 {
-	window.setSize(sf::Vector2u(width, height));
-	window.setTitle("Platformer");
+    window.setSize(sf::Vector2u(width, height));
+    window.setTitle("Platformer");
 
     p1 = nullptr;
     p2 = nullptr;
-
     objectCreated = false;
 }
 
@@ -222,7 +196,6 @@ void Game::saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& p
         file << coin->getScore();
         file << "\n";
         file.close();
-        std::cout << "Funkcja wywołana \n";
     }
 }
 
@@ -249,7 +222,6 @@ bool Game::playerPowerCollision(Player& player, PowerUpShield* shield, PowerUpJu
     return false;
 }
 
-
 void Game::updatePowers(Player& player, sf::RenderWindow& window)
 {
     if (p1 != nullptr) {
@@ -261,3 +233,8 @@ void Game::updatePowers(Player& player, sf::RenderWindow& window)
     }
 }
 
+int Game::randomInt(int min, int max){
+    static std::default_random_engine e{ static_cast<long unsigned int>(time(0)) };
+    std::uniform_int_distribution<int> d{ min, max };
+    return d(e);
+}

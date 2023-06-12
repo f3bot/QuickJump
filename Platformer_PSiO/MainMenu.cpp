@@ -26,7 +26,7 @@ MainMenu::MainMenu(float width, float height)
 	}
 
 	currentUser.setFont(font);
-	currentUser.setPosition(150.f, 100.f);
+	currentUser.setPosition(150.f, 225.f);
 	inputUsernameText.setFont(font);
 
 	MainMenuSelected = 0;
@@ -196,14 +196,11 @@ std::string MainMenu::getUsername(sf::RenderWindow& window)
 		}
 
 		currentUser.setString(username);
-		currentUser.setPosition(300, 200);
 
 		window.clear();
 		window.draw(inputUsernameText);
 		window.draw(currentUser);
 		window.display();
-
-		std::cout << username << "A \n" << std::endl;
 	}
 	return username;
 }

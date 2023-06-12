@@ -49,5 +49,8 @@ public:
 
 
 	void updatePowers(Player& player, sf::RenderWindow& window);
+
+	int randomInt(int min, int max);
+	
 };
 

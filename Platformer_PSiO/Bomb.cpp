@@ -79,6 +79,7 @@ void Bomb::collisionWithPlayer(Player& player, float dt)
     if (player.getGlobalBounds().intersects(getGlobalBounds())) {
         if (player.getShielded()) {
             hasCollided = true;
+            animationTimeTest = 0;  
         }
         else {
             std::cout << "Eksplozja\n";
@@ -97,9 +98,11 @@ void Bomb::collisionWithPlayer(Player& player, float dt)
             std::cout << "Shielded\n";
             player.setShielded(false);
             hasCollided = false;
+            animationTimeTest = 0;  
         }
     }
 }
+
 
 void Bomb::resetPosition(sf::RenderWindow& window, Player& player)
 {
