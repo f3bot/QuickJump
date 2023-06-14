@@ -25,6 +25,8 @@ private:
 	PowerUpJump* p2;
 
 	bool objectCreated;
+	
+	bool dataSent;
 
 public:
 	void initVariables();
@@ -51,6 +53,8 @@ public:
 	void updatePowers(Player& player, sf::RenderWindow& window);
 
 	int randomInt(int min, int max);
+
+
 	
 };
 

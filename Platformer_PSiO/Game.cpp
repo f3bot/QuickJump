@@ -15,7 +15,7 @@ void Game::initVariables()
 {
 }
 
-void Game::movePlatforms(Player& player)
+void Game::movePlatforms(Player& player) //Not used, not necessary since the refactoring
 {
     for (auto& platform : platformVec) {
         platform->moveUp(0.2 * player.getVertical());
@@ -185,17 +185,21 @@ Game::Game()
     p1 = nullptr;
     p2 = nullptr;
     objectCreated = false;
+
+    dataSent = false;
 }
 
 void Game::saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& player)
 {
-    if (player.getDead()) {
+    if (player.getDead() && !dataSent) {
         std::fstream file;
         file.open(filename, std::ios::app);
         file << menu->returnUser() << "\n";
         file << coin->getScore();
         file << "\n";
         file.close();
+
+        dataSent = true;
     }
 }
 
