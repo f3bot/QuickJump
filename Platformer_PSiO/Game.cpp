@@ -15,7 +15,7 @@ void Game::initVariables()
 {
 }
 
-void Game::movePlatforms(Player& player)
+void Game::movePlatforms(Player& player) //Not used, not necessary since the refactoring
 {
     for (auto& platform : platformVec) {
         platform->moveUp(0.2 * player.getVertical());
