@@ -79,6 +79,7 @@ int Game::run()
     sf::View view = window.getDefaultView();
     Bomb bomb;
 
+    AnimatedGIF gif();
     sf::Sprite gifSprite;
 
     Background background_texture(window);
@@ -104,6 +105,7 @@ int Game::run()
                 window.close();
             player.handleEvents(event);
             mainMenu->processEvents(event, player, background_texture, platformVec);
+            
             h.endEvent(event, window);
         }
 
@@ -121,9 +123,7 @@ int Game::run()
                 background_texture.drawBackground(window);
 
                 for (auto& platform : platformVec) {
-                    platform->playerBlockCollision(player);
-                    platform->setDestruction(clock.getElapsedTime().asMicroseconds());
-                    platform->drawTo(window);
+                    platform->updateAll(player, clock.getElapsedTime().asMicroseconds(), window);
                 }
 
                 if (coin->getScore() % 10 == 0 && !objectCreated) {
@@ -136,31 +136,16 @@ int Game::run()
                     objectCreated = true;
                 }
 
-                handleWorldGeneration(player);
-
-                playerPowerCollision(player, p1, p2);
+                update(player, window);
                 updatePowers(player, window);
-
-                player.movementHorizontal(background_texture);
-                player.movementJump(background_texture);
-
-                view.setCenter(player.getPosition());
-                window.setView(view);
-                player.updateShield(window);
-                player.drawTo(window, background_texture);
-
-                player.handleTextureChange(clock.getElapsedTime().asMicroseconds());
-
+                player.updateAll(clock.getElapsedTime().asMicroseconds(), window, event, background_texture, view);
                 bomb.update(player, window, clock.getElapsedTime().asMicroseconds());
                 coin->updateCoin(player, window, clock.getElapsedTime().asMicroseconds(), platformVec[2], platformVec);
-
                 clock.restart();
             }
             else {
                 saveToCsv("output.txt", coin, mainMenu, player);
-                h.loadFromCsv("output.txt");
-                h.calculateAndSetPosition(player);
-                h.drawTo(window);
+                h.updateAll(window, "output.txt", player);
             }
         }
 
@@ -185,17 +170,20 @@ Game::Game()
     p1 = nullptr;
     p2 = nullptr;
     objectCreated = false;
+    dataLoaded = false;
 }
 
 void Game::saveToCsv(std::string filename, Coin* coin, MainMenu* menu, Player& player)
 {
-    if (player.getDead()) {
+    if (player.getDead() && !dataLoaded) {
         std::fstream file;
         file.open(filename, std::ios::app);
         file << menu->returnUser() << "\n";
         file << coin->getScore();
         file << "\n";
         file.close();
+
+        dataLoaded = true;
     }
 }
 
@@ -231,6 +219,13 @@ void Game::updatePowers(Player& player, sf::RenderWindow& window)
     if (p2 != nullptr) {
         p2->update(player, window);
     }
+}
+
+void Game::update(Player& player, sf::RenderWindow& w)
+{
+    handleWorldGeneration(player);
+    playerPowerCollision(player, p1, p2);
+    //updatePowers(player, window);
 }
 
 int Game::randomInt(int min, int max){

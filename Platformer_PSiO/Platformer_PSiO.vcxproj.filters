@@ -60,9 +60,6 @@
     <ClCompile Include="playerBarrier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="powerUpCoins.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HallOfFame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="playerBarrier.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="powerUpCoins.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HallOfFame.h">

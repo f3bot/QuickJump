@@ -48,5 +48,7 @@ public:
 
 
 	void moveUp(float verticalSpeed);
+
+	void updateAll(Player& player, float dt, sf::RenderWindow& window);
 };
 

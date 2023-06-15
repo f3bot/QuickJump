@@ -45,12 +45,6 @@ Coin::Coin(Player& player, Platform* plat) : sf::Sprite()
 	randomIntFound = false;
 }
 
-Coin::Coin(Platform* plat)
-{
-	sf::FloatRect bounds = plat->getGlobalBounds();
-
-
-}
 
 bool Coin::checkDeleted(std::vector<Platform*> platVec, Platform* plat)
 {
@@ -137,10 +131,6 @@ int Coin::randomInt(int max)
 }
 
 
-
-void Coin::handleCoinsPowerUp(Player& player, Platform* plat)
-{
-}
 
 float Coin::randomFloat(float min, float max)
 {

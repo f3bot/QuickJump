@@ -2,6 +2,26 @@
 #include "Options.h"
 #include "Background.h"
 
+bool Player::getGrounded()
+{
+	return isGrounded;
+}
+
+void Player::setGrounded(bool s)
+{
+	isGrounded = s;
+}
+
+bool Player::getCanMove()
+{
+	return canMove;
+}
+
+void Player::setCanMove(bool s)
+{
+	canMove = s;
+}
+
 Player::Player(sf::RenderWindow& window) : sf::Sprite()
 {
 	//Animation and texture stuff
@@ -241,11 +261,14 @@ void Player::setDead()
 	isDead = true;
 }
 
-void Player::updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Background& background)
+void Player::updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Background& background, sf::View& view)
 {
 	movementHorizontal(background);
 	movementJump(background);
-	window.draw(*this);
+	view.setCenter(getPosition());
+	window.setView(view);
+	updateShield(window);
+	drawTo(window, background);
 	handleTextureChange(dt);
 }
 

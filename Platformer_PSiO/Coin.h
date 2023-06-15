@@ -54,15 +54,11 @@ public:
 
 	bool checkDeleted(std::vector<Platform*> platVec, Platform* plat);
 
-	void updateText();
-
 	int getScore() {
 		return score;
 	}
 
 	float randomFloat(float min, float max);
-
-	void spawnMultipleCoins(Player& player, Platform* plat);
 
 	void handleCoinsPowerUp(Player& player, Platform* plat);
 

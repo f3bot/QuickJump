@@ -11,7 +11,6 @@
 #include "MainMenu.h"
 #include "PowerUpShield.h"
 #include "PowerUpJump.h"
-#include "powerUpCoins.h"
 #include "Coin.h"
 class Game
 
@@ -25,6 +24,8 @@ private:
 	PowerUpJump* p2;
 
 	bool objectCreated;
+
+	bool dataLoaded;
 
 public:
 	void initVariables();
@@ -51,6 +52,8 @@ public:
 	void updatePowers(Player& player, sf::RenderWindow& window);
 
 	int randomInt(int min, int max);
+
+	void update(Player& player, sf::RenderWindow& w);
 	
 };
 

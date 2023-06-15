@@ -12,7 +12,6 @@ private:
 public:
 	Background(sf::RenderWindow& window);
 	void setTexture_();
-	void updatePosition(sf::RenderWindow& window, sf::View& view);
 
 	int setSelected(int s);
 	void drawBackground(sf::RenderWindow& window);

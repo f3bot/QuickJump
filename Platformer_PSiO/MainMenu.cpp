@@ -37,7 +37,7 @@ MainMenu::MainMenu(float width, float height)
 
 
 	options = new Options();
-	//gif = new AnimatedGIF("assets/gggif.gif");
+	gif = new AnimatedGIF("assets/gggif.gif");
 
 	userEntered = false;
 
@@ -135,8 +135,8 @@ void MainMenu::processEvents(sf::Event& e, Player& player, Background& backgroun
 
 void MainMenu::drawTo(sf::RenderWindow& window)
 {
-	//gif->update(gifSprite);
-	//window.draw(gifSprite);
+	gif->update(gifSprite);
+	window.draw(gifSprite);
 
 	if (showOptions) {
 		options->drawTo(window);

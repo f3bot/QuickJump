@@ -55,17 +55,25 @@ private:
 
 	bool barrierCreated;
 
+	bool isGrounded;
+
 	int jumpingCounter;
 	//Coin powerUp will be linked with coin
 
-public:
+	bool canMove;
+
 	bool left;
 	bool right;
 
-	bool canMove;
+public:
+	bool getGrounded();
+	void setGrounded(bool s);
+
+	bool getCanMove();
+	void setCanMove(bool s);
+
 
 	sf::Vector2f position;
-	bool isGrounded;
 	//Constructors and Destructors
 
 	double verticalSpeed;
@@ -125,7 +133,7 @@ public:
 	bool getDead();
 	void setDead();
 	
-	void updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Background& background);
+	void updateAll(float dt, sf::RenderWindow& window, sf::Event& e, Background& background, sf::View& view);
 
 	void updateShield(sf::RenderWindow& window);
 

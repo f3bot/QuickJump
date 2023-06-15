@@ -46,5 +46,7 @@ public:
 	void drawTo(sf::RenderWindow& window);
 
 	void endEvent(sf::Event& e, sf::RenderWindow& window);
+
+	void updateAll(sf::RenderWindow& window, std::string filename, Player& player);
 };
 

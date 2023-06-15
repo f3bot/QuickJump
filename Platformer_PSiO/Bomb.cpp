@@ -85,8 +85,8 @@ void Bomb::collisionWithPlayer(Player& player, float dt)
             std::cout << "Eksplozja\n";
             setScale({ 1.5,1.5 });
             animateExplosion(dt, player);
-            player.isGrounded = true;
-            player.canMove = false;
+            player.setGrounded(true);
+            player.setCanMove(false);
             canMove = false;
         }
     }

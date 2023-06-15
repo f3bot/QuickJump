@@ -13,6 +13,13 @@ void HallOfFame::endEvent(sf::Event& e, sf::RenderWindow& window)
         }
 }
 
+void HallOfFame::updateAll(sf::RenderWindow& window, std::string filename, Player& player)
+{
+    loadFromCsv("output.txt");
+    calculateAndSetPosition(player);
+    drawTo(window);
+}
+
 HallOfFame::HallOfFame()
 {
 	if (!font.loadFromFile("fonts/font2.ttf")) {
@@ -57,7 +64,6 @@ void HallOfFame::loadFromCsv(std::string filename)
                 i++;
             }
             file.close();
-            std::cout << "Loaded\n";
             loaded = true;
             
 

@@ -161,7 +161,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="playerBarrier.cpp" />
     <ClCompile Include="PowerUp.cpp" />
-    <ClCompile Include="powerUpCoins.cpp" />
     <ClCompile Include="PowerUpJump.cpp" />
     <ClCompile Include="PowerUpShield.cpp" />
   </ItemGroup>
@@ -179,7 +178,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="playerBarrier.h" />
     <ClInclude Include="PowerUp.h" />
-    <ClInclude Include="powerUpCoins.h" />
     <ClInclude Include="PowerUpJump.h" />
     <ClInclude Include="PowerUpShield.h" />
     <ClInclude Include="stb\stb_image.h" />

@@ -77,7 +77,7 @@ void Platform::playerBlockCollision(Player& player)
 
 	if (bottomPlayer >= topPlat && bottomPlayer <= bottomPlat && leftPlayer >= leftPlat && rightPlayer <= rightPlat) {
 		if (player.getVertical() >= 0) {
-			player.isGrounded = true;
+			player.setGrounded(true);
 			isStanding = true;
 		}
 	}
@@ -118,6 +118,13 @@ void Platform::setTextures()
 void Platform::moveUp(float verticalSpeed)
 {
 	 rect.move(0, -1 * verticalSpeed);
+}
+
+void Platform::updateAll(Player& player, float dt, sf::RenderWindow& window)
+{
+	playerBlockCollision(player);
+	setDestruction(dt);
+	drawTo(window);
 }
 
 int Platform::getAnimationState()
