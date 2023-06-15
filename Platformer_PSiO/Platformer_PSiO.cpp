@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 
+//michal.borowski@student.put.poznan.pl 155724
 
 int main()
 {
@@ -9,3 +10,4 @@ int main()
 
     game.run();
 }
+

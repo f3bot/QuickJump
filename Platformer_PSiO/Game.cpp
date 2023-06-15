@@ -49,6 +49,7 @@ bool Game::deleteOutOfBoundsPlatforms(Player& player)
             delete* it;
             it = platformVec.erase(it);
             platformsDeleted = true;
+            //test
         }
         else {
             ++it;
