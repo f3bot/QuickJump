@@ -16,4 +16,4 @@ https://www.patreon.com/Anokolisa
 
 @nothings : stb_image.h
 
-michal.borowski@student.put.poznan.pl 155724
+michal.borowski@student.put.poznan.pl
